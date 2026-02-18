@@ -1,5 +1,10 @@
 // Quiz and flashcard data
 window.APP_DATA = {
+    title: 'Az Operaház',
+    titleRu: 'История Оперного театра',
+    badge: 'Építészeti remekmű',
+    footerHref: 'https://opera.hu',
+    footerLabel: 'opera.hu',
     theme: 'azure',
     category: 'architecture',
 

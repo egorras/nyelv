@@ -6,10 +6,42 @@
   }
 
   // Default is light (no attribute). If stored is 'dark', set it.
-  if (localStorage.getItem('onegin_theme') === 'dark') {
+  if (localStorage.getItem('nyelv_theme') === 'dark') {
     document.documentElement.dataset.theme = 'dark';
   }
   updateThemeBtn();
+
+  // Inject metadata
+  const d = window.APP_DATA;
+  if (d) {
+    if (d.title) {
+      const suffix = d.title.includes('Operaház') ? ' története | Magyar Állami Operaház' : ' — Balett | Magyar Állami Operaház';
+      document.title = d.title + suffix;
+      const h1 = document.querySelector('.hero h1');
+      if (h1) h1.textContent = d.title;
+    }
+    if (d.titleRu) {
+      const sub = document.querySelector('.hero-sub');
+      if (sub) sub.textContent = d.titleRu;
+    }
+    if (d.badge) {
+      const badge = document.querySelector('.hero-badge');
+      if (badge) badge.textContent = d.badge;
+    }
+    if (d.footerHref || d.footerLabel) {
+      const footerLink = document.querySelector('.footer a');
+      if (footerLink) {
+        if (d.footerHref) footerLink.href = d.footerHref;
+        if (d.footerLabel) footerLink.textContent = d.footerLabel;
+      }
+    }
+
+    // Hide empty tabs
+    if (!d.factsData || d.factsData.length === 0) {
+      const factsTab = document.querySelector('.tab[data-tab="facts"]');
+      if (factsTab) factsTab.style.display = 'none';
+    }
+  }
 })();
 
 function toggleTheme() {
@@ -17,11 +49,11 @@ function toggleTheme() {
   if (isDark) {
     // Switch to Light
     delete document.documentElement.dataset.theme;
-    localStorage.setItem('onegin_theme', 'light');
+    localStorage.setItem('nyelv_theme', 'light');
   } else {
     // Switch to Dark
     document.documentElement.dataset.theme = 'dark';
-    localStorage.setItem('onegin_theme', 'dark');
+    localStorage.setItem('nyelv_theme', 'dark');
   }
   updateThemeBtn();
 }

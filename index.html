@@ -101,9 +101,7 @@
 
   <div class="lessons" id="lessons-grid">
     <a class="lesson-card" href="./onegin/index.html" data-category="ballet">
-      <img class="lesson-img"
-        src="https://tse3.mm.bing.net/th/id/OIP.LKU6U6P45apgKgBXTmG5wAHaD4?cb=defcachec2&rs=1&pid=ImgDetMain&o=7&rm=3"
-        alt="Anyegin">
+      <img class="lesson-img" src="./img/onegin.jpg" alt="Anyegin">
       <div class="lesson-info">
         <div class="lesson-title">Anyegin</div>
         <div class="lesson-sub">Neoklasszikus balett</div>
@@ -112,9 +110,7 @@
     </a>
 
     <a class="lesson-card" href="./operahaz/index.html" data-category="architecture">
-      <img class="lesson-img"
-        src="https://www.opera.hu/media/images/01_homlokzat_ybl_miklos_terv__forras_opera_ar.width-2000.jpg"
-        alt="Az Operaház">
+      <img class="lesson-img" src="./img/operahaz.jpg" alt="Az Operaház">
       <div class="lesson-info">
         <div class="lesson-title">Az Operaház</div>
         <div class="lesson-sub">Építészeti remekmű / История здания</div>
@@ -123,9 +119,7 @@
     </a>
 
     <a class="lesson-card" href="./swan-lake/index.html" data-category="ballet">
-      <img class="lesson-img"
-        src="https://th.bing.com/th/id/OIP.ipyUr0HcbYm2ndzYbtl3vAHaEK?w=295&h=180&c=7&r=0&o=7&cb=defcachec2&dpr=1.3&pid=1.7&rm=3"
-        alt="A hattyúk tava">
+      <img class="lesson-img" src="./img/swan-lake.jpg" alt="A hattyúk tava">
       <div class="lesson-info">
         <div class="lesson-title">A hattyúk tava</div>
         <div class="lesson-sub">Klasszikus balett</div>
@@ -148,7 +142,7 @@
   <script>
     // minimal theme toggle — mirrors app.js logic without the full app
     (function () {
-      const saved = localStorage.getItem('onegin_theme');
+      const saved = localStorage.getItem('nyelv_theme');
       if (saved) document.documentElement.setAttribute('data-theme', saved);
       updateThemeBtn();
     })();
@@ -158,7 +152,7 @@
       // If current is 'dark', go to 'light'. If 'light' or null, go to 'dark'.
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('onegin_theme', next);
+      localStorage.setItem('nyelv_theme', next);
       updateThemeBtn();
     }
 

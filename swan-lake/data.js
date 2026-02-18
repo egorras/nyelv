@@ -1,4 +1,9 @@
 window.APP_DATA = {
+    title: 'A hattyúk tava',
+    titleRu: 'Лебединое озеро',
+    badge: 'Klasszikus balett',
+    footerHref: 'https://opera.hu/en/programme/2025-2026/swan-lake/hungarian-state-opera-2026-04-26-1100/',
+    footerLabel: 'opera.hu',
     theme: 'rose',
     category: 'ballet',
     storyData: [

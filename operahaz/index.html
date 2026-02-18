@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Az Operaház története | Magyar Állami Operaház</title>
+    <title></title>
     <link rel="stylesheet" href="../style.css">
 </head>
 
@@ -52,24 +52,25 @@
                 </div>
             </div>
         </div>
-        <div class="hero-badge">Építészeti remekmű</div>
-        <h1>Az Operaház</h1>
-        <div class="hero-sub">История Оперного театра</div>
+        <div class="hero-badge"></div>
+        <h1></h1>
+        <div class="hero-sub"></div>
     </div>
 
     <!-- TABS -->
     <nav class="tabs">
-        <button class="tab active" data-tab="story">Történet</button>
+        <button class="tab active" data-tab="story">Cselekmény</button>
+        <button class="tab" data-tab="facts">Érdekességek</button>
         <button class="tab" data-tab="cards">Kártyák</button>
         <button class="tab" data-tab="quiz">Kvíz</button>
     </nav>
 
     <!-- ═══════════════════════════════════ -->
-    <!-- TAB: STORY (HISTORY)              -->
+    <!-- TAB: STORY                        -->
     <!-- ═══════════════════════════════════ -->
     <div class="section active" id="story">
         <div class="container">
-            <h2 class="section-title">Az építés története</h2>
+            <h2 class="section-title">A balett cselekménye</h2>
             <div class="view-toggle">
                 <button id="view-sentence" class="active" onclick="setStoryView('sentence')">Mondat</button>
                 <button id="view-paragraph" onclick="setStoryView('paragraph')">Bekezdés</button>
@@ -79,8 +80,15 @@
     </div>
 
     <!-- ═══════════════════════════════════ -->
-    <!-- TAB: CARDS (Anki-style)           -->
+    <!-- TAB: FACTS                        -->
     <!-- ═══════════════════════════════════ -->
+    <div class="section" id="facts">
+        <div class="container">
+            <h2 class="section-title">Érdekességek</h2>
+            <p class="section-subtitle">Koppints a kártyára a fordításért!</p>
+            <div id="facts-content"></div>
+        </div>
+    </div>
 
     <!-- ═══════════════════════════════════ -->
     <!-- TAB: CARDS (Anki-style)           -->
@@ -101,18 +109,18 @@
     </div>
 
     <!-- ═══════════════════════════════════ -->
-    <!-- TAB: QUIZ                         -->
+    <!-- TAB: QUIZ (Duolingo-style)        -->
     <!-- ═══════════════════════════════════ -->
     <div class="section" id="quiz">
         <div class="container">
             <h2 class="section-title">Gyakorlás kvíz</h2>
-            <p class="section-subtitle">Ellenőrizd tudásod az Operaház történetéről!</p>
+            <p class="section-subtitle">12 vegyes feladat: választás, kitöltés, sorrend, párosítás</p>
             <div class="quiz-card" id="quiz-area"></div>
         </div>
     </div>
 
     <div class="footer">
-        <a href="https://opera.hu" target="_blank">opera.hu</a> &middot; Magyar Állami Operaház
+        <a href="" target="_blank"></a> &middot; Magyar Állami Operaház &middot; 2026
     </div>
 
     <script src="./data.js"></script>

@@ -1,5 +1,10 @@
 // Quiz and flashcard data — loaded as a plain script so it works with file:// (no server needed)
 window.APP_DATA = {
+  title: 'Anyegin',
+  titleRu: 'Онегин',
+  badge: 'Neoklasszikus balett',
+  footerHref: 'https://opera.hu/en/programme/2025-2026/onegin/hungarian-state-opera-2026-02-21-1100',
+  footerLabel: 'opera.hu',
   theme: 'rose',
   category: 'ballet',
 
