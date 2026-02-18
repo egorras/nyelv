@@ -179,6 +179,7 @@ function renderStory() {
     }
   } else {
     // ── Sentence View (Default) ──
+    let firstExpanded = false;
     for (const act of storyData) {
       for (const scene of act.scenes) {
         const label = escHtml(act.act) + ' \u00b7 ' + escHtml(scene.scene);
@@ -188,8 +189,14 @@ function renderStory() {
 
         for (const block of scene.blocks) {
           let translationHtml = '';
+          let isExpanded = false;
+          if (!firstExpanded && block.ru) {
+            isExpanded = true;
+            firstExpanded = true;
+          }
+
           if (block.ru) {
-            translationHtml = '<div class="translation-panel">'
+            translationHtml = '<div class="translation-panel' + (isExpanded ? ' open' : '') + '">'
               + '<div class="trans-row"><span class="trans-flag">RU</span>'
               + '<span class="trans-text">' + escHtml(block.ru) + '</span></div>'
               + (block.note
@@ -201,7 +208,7 @@ function renderStory() {
           }
 
           html += '<div class="bilingual-block fade-in">'
-            + '<div class="sentence-hu' + (block.ru ? '" onclick="toggleTranslation(this)"' : ' no-trans"') + '>'
+            + '<div class="sentence-hu' + (block.ru ? (isExpanded ? ' revealed' : '') + '" onclick="toggleTranslation(this)"' : ' no-trans"') + '>'
             + '<div class="hu-text">'
             + escHtml(block.hu)
             + '<button class="speaker-btn" onclick="event.stopPropagation(); speak(\'' + escAttr(block.hu) + '\', \'hu-HU\')">' + SPEAKER_ICON + '</button>'
