@@ -118,8 +118,6 @@ let quizIndex = 0;
 let quizScore = 0;
 let quizAnswered = false;
 let quizResults = [];
-let matchSelected = null;
-let matchCount = 0;
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -135,7 +133,6 @@ function buildQuizSession() {
   pick(quizPool.choice, 4).forEach(q => session.push({ type: 'choice', data: q }));
   pick(quizPool.fill, 3).forEach(q => session.push({ type: 'fill', data: q }));
   pick(quizPool.order, 3).forEach(q => session.push({ type: 'order', data: q }));
-  pick(quizPool.match, 2).forEach(q => session.push({ type: 'match', data: q }));
   return shuffle(session);
 }
 
@@ -181,12 +178,11 @@ function renderQuiz() {
 
   quizAnswered = false;
   const item = quizSession[quizIndex];
-  const typeName = { choice: 'V\u00e1lassz', fill: 'T\u00f6ltsd ki', order: 'Rakd sorba', match: 'P\u00e1ros\u00edtsd' }[item.type];
+  const typeName = { choice: 'V\u00e1lassz', fill: 'T\u00f6ltsd ki', order: 'Rakd sorba' }[item.type];
 
   if (item.type === 'choice') renderChoice(area, dots, item.data, typeName);
   else if (item.type === 'fill') renderFill(area, dots, item.data, typeName);
   else if (item.type === 'order') renderOrder(area, dots, item.data, typeName);
-  else if (item.type === 'match') renderMatch(area, dots, item.data, typeName);
 }
 
 function recordResult(correct) {
@@ -361,79 +357,6 @@ function checkOrder() {
     recordResult(false);
   }
   document.getElementById('quiz-next').classList.add('show');
-}
-
-// ── Match ──
-function renderMatch(area, dots, data, label) {
-  const huWords = shuffle(data.pairs.map(p => p[0]));
-  const ruWords = shuffle(data.pairs.map(p => p[1]));
-  const correctMap = {};
-  data.pairs.forEach(p => { correctMap[p[0]] = p[1]; });
-
-  window._matchCorrect = correctMap;
-  matchSelected = null;
-  matchCount = 0;
-  window._matchErrors = 0;
-
-  area.innerHTML = dots +
-    '<div class="quiz-type-badge match">' + label + '</div>' +
-    '<div class="quiz-question" style="font-size:1rem;font-family:Inter,sans-serif">\u041f\u043e\u0434\u0431\u0435\u0440\u0438 \u043f\u0430\u0440\u044b</div>' +
-    '<div class="match-container">' +
-    '<div><div class="match-col-label hu-label">Magyar</div>' +
-    huWords.map(w => '<div class="match-item match-hu" data-word="' + escAttr(w) + '" onclick="selectMatch(this,\'hu\')">' + escHtml(w) + '</div>').join('') +
-    '</div>' +
-    '<div><div class="match-col-label ru-label">\u0420\u0443\u0441\u0441\u043a\u0438\u0439</div>' +
-    ruWords.map(w => '<div class="match-item match-ru" data-word="' + escAttr(w) + '" onclick="selectMatch(this,\'ru\')">' + escHtml(w) + '</div>').join('') +
-    '</div>' +
-    '</div>' +
-    '<div class="quiz-feedback" id="quiz-feedback"></div>' +
-    '<div class="quiz-btn-row"><button class="quiz-next" id="quiz-next" onclick="nextQuestion()">K\u00f6vetkez\u0151</button></div>';
-}
-
-function selectMatch(el, side) {
-  if (el.classList.contains('matched')) return;
-
-  if (!matchSelected) {
-    matchSelected = { el, side };
-    el.classList.add('selected');
-  } else if (matchSelected.side === side) {
-    matchSelected.el.classList.remove('selected');
-    matchSelected = { el, side };
-    el.classList.add('selected');
-  } else {
-    const huEl = side === 'hu' ? el : matchSelected.el;
-    const ruEl = side === 'ru' ? el : matchSelected.el;
-    const huWord = huEl.dataset.word;
-    const ruWord = ruEl.dataset.word;
-
-    matchSelected.el.classList.remove('selected');
-
-    if (window._matchCorrect[huWord] === ruWord) {
-      huEl.classList.add('matched');
-      ruEl.classList.add('matched');
-      matchCount++;
-      if (matchCount === Object.keys(window._matchCorrect).length) {
-        const fb = document.getElementById('quiz-feedback');
-        if (window._matchErrors === 0) {
-          fb.innerHTML = '<span style="color:var(--success)">T\u00f6k\u00e9letes!</span>';
-          recordResult(true);
-        } else {
-          fb.innerHTML = '<span style="color:var(--accent)">K\u00e9sz! ' + window._matchErrors + ' hib\u00e1val.</span>';
-          recordResult(false);
-        }
-        document.getElementById('quiz-next').classList.add('show');
-      }
-    } else {
-      huEl.classList.add('wrong-match');
-      ruEl.classList.add('wrong-match');
-      window._matchErrors++;
-      setTimeout(() => {
-        huEl.classList.remove('wrong-match');
-        ruEl.classList.remove('wrong-match');
-      }, 500);
-    }
-    matchSelected = null;
-  }
 }
 
 function nextQuestion() {
