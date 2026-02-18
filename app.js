@@ -1,19 +1,22 @@
 // ── Theme ──
 (function () {
-  if (localStorage.getItem('onegin_theme') === 'light') {
-    document.documentElement.dataset.theme = 'light';
+  // Default is light (no attribute). If stored is 'dark', set it.
+  if (localStorage.getItem('onegin_theme') === 'dark') {
+    document.documentElement.dataset.theme = 'dark';
   }
   updateThemeBtn();
 })();
 
 function toggleTheme() {
-  const isLight = document.documentElement.dataset.theme === 'light';
-  if (isLight) {
+  const isDark = document.documentElement.dataset.theme === 'dark';
+  if (isDark) {
+    // Switch to Light
     delete document.documentElement.dataset.theme;
-    localStorage.setItem('onegin_theme', 'dark');
-  } else {
-    document.documentElement.dataset.theme = 'light';
     localStorage.setItem('onegin_theme', 'light');
+  } else {
+    // Switch to Dark
+    document.documentElement.dataset.theme = 'dark';
+    localStorage.setItem('onegin_theme', 'dark');
   }
   updateThemeBtn();
 }
@@ -21,7 +24,8 @@ function toggleTheme() {
 function updateThemeBtn() {
   const btn = document.getElementById('theme-toggle');
   if (!btn) return;
-  const isLight = document.documentElement.dataset.theme === 'light';
+  // Light if NOT dark
+  const isLight = document.documentElement.dataset.theme !== 'dark';
   const SUN = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
   const MOON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
   btn.innerHTML = isLight ? MOON : SUN;
@@ -76,30 +80,24 @@ function renderStory() {
     for (const scene of act.scenes) {
       const label = escHtml(act.act) + ' \u00b7 ' + escHtml(scene.scene);
       html += '<div class="act-header fade-in"><span class="act-header-line"></span>'
-            + '<span class="act-header-label">' + label + '</span>'
-            + '<span class="act-header-line"></span></div>';
+        + '<span class="act-header-label">' + label + '</span>'
+        + '<span class="act-header-line"></span></div>';
 
       for (const block of scene.blocks) {
         html += '<div class="bilingual-block fade-in">'
-              + '<div class="sentence-hu" onclick="toggleTranslation(this)">'
-              + '<div class="hu-text">' + escHtml(block.hu) + '</div>'
-              + '</div>'
-              + '<div class="translation-panel">'
-              + '<div class="trans-row"><span class="trans-flag">RU</span>'
-              + '<span class="trans-text">' + escHtml(block.ru) + '</span></div>'
-              + ((block.vocab && block.vocab.length) || block.note
-                  ? '<div class="vocab-section">'
-                    + (block.vocab && block.vocab.length
-                        ? '<div class="vocab-title">Szavak</div>'
-                          + block.vocab.map(function(p) {
-                              return '<div class="vocab-item">' + escHtml(p[0]) + ' <span>' + escHtml(p[1]) + '</span></div>';
-                            }).join('')
-                        : '')
-                    + (block.note ? '<div class="vocab-note">' + block.note + '</div>' : '')
-                    + '</div>'
-                  : '')
-              + '</div>'
-              + '</div>';
+          + '<div class="sentence-hu" onclick="toggleTranslation(this)">'
+          + '<div class="hu-text">' + escHtml(block.hu) + '</div>'
+          + '</div>'
+          + '<div class="translation-panel">'
+          + '<div class="trans-row"><span class="trans-flag">RU</span>'
+          + '<span class="trans-text">' + escHtml(block.ru) + '</span></div>'
+          + (block.note
+            ? '<div class="vocab-section">'
+            + '<div class="vocab-note">' + block.note + '</div>'
+            + '</div>'
+            : '')
+          + '</div>'
+          + '</div>';
       }
     }
   }
@@ -385,7 +383,7 @@ function loadAnki() {
 }
 function saveAnki(state) {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  catch (e) {}
+  catch (e) { }
 }
 
 function getCardState(id) {
@@ -435,18 +433,18 @@ function renderCardStats() {
   const pct = v => (v / total * 100).toFixed(1);
   const progressBar = total > 0
     ? '<div class="anki-progress-bar">' +
-      (matureC ? '<div class="apb-seg apb-mature" style="width:' + pct(matureC) + '%"></div>' : '') +
-      (youngC  ? '<div class="apb-seg apb-young"  style="width:' + pct(youngC)  + '%"></div>' : '') +
-      (learnC  ? '<div class="apb-seg apb-learn"  style="width:' + pct(learnC)  + '%"></div>' : '') +
-      (reviewC ? '<div class="apb-seg apb-review" style="width:' + pct(reviewC) + '%"></div>' : '') +
-      (newC    ? '<div class="apb-seg apb-new"    style="width:' + pct(newC)    + '%"></div>' : '') +
-      '</div>'
+    (matureC ? '<div class="apb-seg apb-mature" style="width:' + pct(matureC) + '%"></div>' : '') +
+    (youngC ? '<div class="apb-seg apb-young"  style="width:' + pct(youngC) + '%"></div>' : '') +
+    (learnC ? '<div class="apb-seg apb-learn"  style="width:' + pct(learnC) + '%"></div>' : '') +
+    (reviewC ? '<div class="apb-seg apb-review" style="width:' + pct(reviewC) + '%"></div>' : '') +
+    (newC ? '<div class="apb-seg apb-new"    style="width:' + pct(newC) + '%"></div>' : '') +
+    '</div>'
     : '';
 
   el.innerHTML =
-    '<div class="stat-box"><div class="stat-num new-n">'    + newC    + '</div><div class="stat-label">Uj</div></div>' +
-    '<div class="stat-box"><div class="stat-num learn-n">'  + learnC  + '</div><div class="stat-label">Tanulas</div></div>' +
-    '<div class="stat-box"><div class="stat-num young-n">'  + youngC  + '</div><div class="stat-label">Fiatal</div></div>' +
+    '<div class="stat-box"><div class="stat-num new-n">' + newC + '</div><div class="stat-label">Uj</div></div>' +
+    '<div class="stat-box"><div class="stat-num learn-n">' + learnC + '</div><div class="stat-label">Tanulas</div></div>' +
+    '<div class="stat-box"><div class="stat-num young-n">' + youngC + '</div><div class="stat-label">Fiatal</div></div>' +
     '<div class="stat-box"><div class="stat-num review-n">' + reviewC + '</div><div class="stat-label">Esedékes</div></div>' +
     '<div class="stat-box"><div class="stat-num mature-n">' + matureC + '</div><div class="stat-label">Megtanult</div></div>' +
     progressBar;
@@ -473,9 +471,9 @@ function renderCard() {
   const boxNow = st.box || 0;
   const intervals = {
     again: formatInterval(INTERVALS[1]),
-    hard:  formatInterval(INTERVALS[Math.min(boxNow,     INTERVALS.length - 1)]),
-    good:  formatInterval(INTERVALS[Math.min(boxNow + 1, INTERVALS.length - 1)]),
-    easy:  formatInterval(INTERVALS[Math.min(boxNow + 2, INTERVALS.length - 1)]),
+    hard: formatInterval(INTERVALS[Math.min(boxNow, INTERVALS.length - 1)]),
+    good: formatInterval(INTERVALS[Math.min(boxNow + 1, INTERVALS.length - 1)]),
+    easy: formatInterval(INTERVALS[Math.min(boxNow + 2, INTERVALS.length - 1)]),
   };
 
   box.innerHTML =
@@ -494,8 +492,8 @@ function renderCard() {
     '</div>' +
     '<div class="card-actions" id="card-actions" style="display:none">' +
     '<button class="card-btn again" onclick="rateCard(0)">Megint<span class="btn-interval">' + intervals.again + '</span></button>' +
-    '<button class="card-btn hard"  onclick="rateCard(1)">Neh\u00e9z<span class="btn-interval">' + intervals.hard  + '</span></button>' +
-    '<button class="card-btn good"  onclick="rateCard(2)">J\u00f3<span class="btn-interval">'    + intervals.good  + '</span></button>' +
+    '<button class="card-btn hard"  onclick="rateCard(1)">Neh\u00e9z<span class="btn-interval">' + intervals.hard + '</span></button>' +
+    '<button class="card-btn good"  onclick="rateCard(2)">J\u00f3<span class="btn-interval">' + intervals.good + '</span></button>' +
     '<button class="card-btn easy"  onclick="rateCard(3)">K\u00f6nny\u0171<span class="btn-interval">' + intervals.easy + '</span></button>' +
     '</div>' +
     '<div class="card-counter">' + remaining + ' k\u00e1rtya h\u00e1travan</div>';

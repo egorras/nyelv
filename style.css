@@ -1,29 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  --bg: #0e0b16;
-  --card: #1a1525;
-  --card-hover: #231e30;
-  --accent: #c9a84c;
-  --accent-dim: #a08035;
-  --text: #e8e4f0;
-  --text-dim: #9990a8;
-  --border: #2e2840;
-  --success: #4ecdc4;
-  --danger: #ff6b6b;
-  --purple: #7c5cbf;
-  --purple-dim: #5a3f91;
-  --radius: 16px;
-  --hero-top: #1a102a;
-  --tabs-bg: rgba(14, 11, 22, 0.92);
-  --glass: rgba(255, 255, 255, .07);
-  --glass-border: rgba(255, 255, 255, .15);
-  --glass-hover: rgba(255, 255, 255, .14);
-  --glass-border-hover: rgba(255, 255, 255, .3);
-  --progress-track: rgba(255, 255, 255, .06);
-}
-
-html[data-theme="light"] {
   --bg: #f8f4ee;
   --card: #ffffff;
   --card-hover: #f0eaf9;
@@ -36,6 +13,7 @@ html[data-theme="light"] {
   --danger: #d94f4f;
   --purple: #6b4db5;
   --purple-dim: #4f3580;
+  --radius: 16px;
   --hero-top: #ede5f8;
   --tabs-bg: rgba(248, 244, 238, 0.95);
   --glass: rgba(0, 0, 0, .05);
@@ -43,6 +21,28 @@ html[data-theme="light"] {
   --glass-hover: rgba(0, 0, 0, .09);
   --glass-border-hover: rgba(0, 0, 0, .22);
   --progress-track: rgba(0, 0, 0, .08);
+}
+
+html[data-theme="dark"] {
+  --bg: #0e0b16;
+  --card: #1a1525;
+  --card-hover: #231e30;
+  --accent: #c9a84c;
+  --accent-dim: #a08035;
+  --text: #e8e4f0;
+  --text-dim: #9990a8;
+  --border: #2e2840;
+  --success: #4ecdc4;
+  --danger: #ff6b6b;
+  --purple: #7c5cbf;
+  --purple-dim: #5a3f91;
+  --hero-top: #1a102a;
+  --tabs-bg: rgba(14, 11, 22, 0.92);
+  --glass: rgba(255, 255, 255, .07);
+  --glass-border: rgba(255, 255, 255, .15);
+  --glass-hover: rgba(255, 255, 255, .14);
+  --glass-border-hover: rgba(255, 255, 255, .3);
+  --progress-track: rgba(255, 255, 255, .06);
 }
 
 html {
@@ -332,37 +332,7 @@ body {
   border-top: 1px solid var(--border);
 }
 
-.vocab-title {
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
 
-.vocab-item {
-  display: inline-block;
-  background: rgba(201, 168, 76, 0.1);
-  border: 1px solid rgba(201, 168, 76, 0.2);
-  border-radius: 8px;
-  padding: 4px 10px;
-  margin: 3px 4px 3px 0;
-  font-size: .8rem;
-  color: var(--text);
-  cursor: default;
-  transition: background .2s, border-color .2s;
-}
-
-.vocab-item:hover {
-  background: rgba(201, 168, 76, 0.22);
-  border-color: rgba(201, 168, 76, 0.5);
-}
-
-.vocab-item span {
-  color: var(--text-dim);
-  font-size: .76rem;
-}
 
 /* Grammar / construction notes */
 .vocab-note {
@@ -1110,6 +1080,37 @@ body {
 }
 
 .theme-toggle svg {
+  width: 17px;
+  height: 17px;
+}
+
+.home-btn {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 10;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background .2s, border-color .2s;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.home-btn:hover {
+  background: var(--card-hover);
+  border-color: var(--accent);
+}
+
+.home-btn svg {
   width: 17px;
   height: 17px;
 }
