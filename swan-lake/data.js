@@ -1,4 +1,6 @@
 window.APP_DATA = {
+    theme: 'rose',
+    category: 'ballet',
     storyData: [
         {
             act: 'I. felvonás',

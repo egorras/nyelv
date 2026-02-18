@@ -1,5 +1,7 @@
 // Quiz and flashcard data — loaded as a plain script so it works with file:// (no server needed)
 window.APP_DATA = {
+  theme: 'rose',
+  category: 'ballet',
 
   // ── Story: bilingual sentence blocks ──────────────────────────────────────
   storyData: [

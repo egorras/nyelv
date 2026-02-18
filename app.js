@@ -1,5 +1,10 @@
 // ── Theme ──
 (function () {
+  // Apply lesson-specific theme
+  if (window.APP_DATA && window.APP_DATA.theme) {
+    document.documentElement.dataset.lessonTheme = window.APP_DATA.theme;
+  }
+
   // Default is light (no attribute). If stored is 'dark', set it.
   if (localStorage.getItem('onegin_theme') === 'dark') {
     document.documentElement.dataset.theme = 'dark';

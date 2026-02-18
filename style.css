@@ -100,12 +100,13 @@ body {
 
 /* ── Top Controls (Theme + Settings) ── */
 .top-controls {
-  position: absolute;
-  top: 1rem;
+  position: fixed;
+  top: 0.5rem;
   right: 1rem;
   display: flex;
   gap: 8px;
-  z-index: 200;
+  z-index: 210;
+  /* Higher than tabs */
 }
 
 .icon-btn {
@@ -1201,10 +1202,11 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .home-btn {
-  position: absolute;
+  position: fixed;
   left: 16px;
-  top: 16px;
-  z-index: 10;
+  top: 8px;
+  z-index: 210;
+  /* Higher than tabs */
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -1337,4 +1339,22 @@ input[type=range]::-webkit-slider-runnable-track {
 
 .paragraph-hu .speaker-btn {
   margin-left: 10px;
+}
+
+/* -- Mobile Navigation Adjustments -- */
+@media (max-width: 600px) {
+
+  .top-controls,
+  .home-btn {
+    position: absolute;
+    top: 1rem;
+  }
+
+  .home-btn {
+    top: 16px;
+  }
+
+  .tabs {
+    top: 0;
+  }
 }
