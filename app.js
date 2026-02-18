@@ -21,6 +21,17 @@ function toggleTheme() {
   updateThemeBtn();
 }
 
+function toggleSettings(e) {
+  e.stopPropagation();
+  const menu = document.getElementById('settings-menu');
+  if (menu) menu.classList.toggle('open');
+}
+
+document.addEventListener('click', () => {
+  const menu = document.getElementById('settings-menu');
+  if (menu) menu.classList.remove('open');
+});
+
 function updateThemeBtn() {
   const btn = document.getElementById('theme-toggle');
   if (!btn) return;
@@ -69,11 +80,33 @@ function observeFadeIns() {
 observeFadeIns();
 
 // ── TTS Helper ──
+let speechRate = parseFloat(localStorage.getItem('speech_rate')) || 1.0;
+
+function setSpeechRate(rate) {
+  speechRate = parseFloat(rate);
+  localStorage.setItem('speech_rate', speechRate);
+  // Update all sliders if they exist
+  updateSpeechSliders();
+}
+
+function updateSpeechSliders() {
+  document.querySelectorAll('.speech-rate-slider').forEach(el => el.value = speechRate);
+  document.querySelectorAll('.speech-rate-value').forEach(el => el.textContent = speechRate + 'x');
+}
+
+// Init sliders when DOM is ready (or immediately if at end of body)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', updateSpeechSliders);
+} else {
+  updateSpeechSliders();
+}
+
 function speak(text, lang = 'hu-HU') {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = lang;
+  u.rate = speechRate;
   // Optional: try to find a native voice
   const voices = window.speechSynthesis.getVoices();
   const voice = voices.find(v => v.lang === lang && !v.localService) || voices.find(v => v.lang === lang);
@@ -131,7 +164,6 @@ function renderStory() {
         html += '<div class="paragraph-block fade-in">'
           + '<div class="paragraph-hu">'
           + escHtml(huPara)
-          + '<button class="speaker-btn" onclick="speak(\'' + escAttr(huPara) + '\', \'hu-HU\')">' + SPEAKER_ICON + '</button>'
           + '</div>'
           + (ruPara.trim() ? '<div class="paragraph-ru">' + escHtml(ruPara) + '</div>' : '')
           + '</div>';
@@ -175,6 +207,7 @@ function renderStory() {
   }
   container.innerHTML = html;
   requestAnimationFrame(observeFadeIns);
+  injectSpeakerIcons(container);
 }
 
 // ══════════════════════════════════════
@@ -628,6 +661,28 @@ function formatInterval(minutes) {
   return Math.round(minutes / 1440) + ' n';
 }
 
+// ── Helper: Inject Speaker Icons into Vocab Notes ──
+function injectSpeakerIcons(root) {
+  if (!root) return;
+  const notes = root.querySelectorAll('.vocab-note b');
+  const ICON = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+
+  notes.forEach(b => {
+    if (b.querySelector('.speaker-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'speaker-btn';
+    btn.style.marginLeft = '4px';
+    btn.style.padding = '2px';
+    btn.innerHTML = ICON;
+    btn.title = 'Kiejtés';
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      speak(b.innerText.replace(/[.,;:]/g, '').trim());
+    };
+    b.insertAdjacentElement('afterend', btn);
+  });
+}
+
 // ── Load data and boot ──
 const appData = window.APP_DATA || {};
 let ankiDeck = appData.ankiDeck || [];
@@ -635,3 +690,6 @@ quizPool = appData.quizPool || {};
 
 renderStory();
 startQuiz();
+initCards(); // Ensure initCards is called if we are on cards tab or just generally ready
+// Inject into static Facts section
+injectSpeakerIcons(document.getElementById('facts'));

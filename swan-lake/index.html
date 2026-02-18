@@ -20,7 +20,38 @@
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
         </a>
-        <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()"></button>
+        <div class="top-controls">
+            <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Témaváltás"></button>
+            <div style="position:relative">
+                <button class="icon-btn" id="settings-toggle" onclick="toggleSettings(event)" title="Beállítások">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                </button>
+                <div class="settings-menu" id="settings-menu" onclick="event.stopPropagation()">
+                    <div class="settings-item">
+                        <div class="settings-label">
+                            <span style="display:flex; align-items:center">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="margin-right:6px">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                Felolvasás sebessége
+                            </span>
+                            <span class="speech-rate-value settings-val">1.0x</span>
+                        </div>
+                        <input type="range" class="speech-rate-slider" min="0.5" max="1.5" step="0.1" value="1.0"
+                            oninput="setSpeechRate(this.value)">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="hero-badge">Klasszikus balett</div>
         <h1>A hattyúk tava</h1>
         <div class="hero-sub">Лебединое озеро</div>
@@ -43,6 +74,7 @@
             <div class="view-toggle">
                 <button id="view-sentence" class="active" onclick="setStoryView('sentence')">Mondat</button>
                 <button id="view-paragraph" onclick="setStoryView('paragraph')">Bekezdés</button>
+
             </div>
             <div id="story-content"></div>
         </div>
@@ -60,10 +92,22 @@
                 <div class="fact-top">
                     <div class="fact-icon">🦢</div>
                     <div class="fact-content">
-                        <h3>Régi legendák, mesék nyomában</h3>
+                        <h3>Régi legendák, mesék nyomában <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Régi legendák, mesék nyomában')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></h3>
                         <p>A hattyú-motívum világszerte sok helyen felbukkan a mitológiában. A görögöknél Zeusz hattyú
                             képében közeledett Lédához, a hindu mítoszokban pedig a tisztaság és a transzcendencia
-                            szimbóluma.</p>
+                            szimbóluma. <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('A hattyú-motívum világszerte sok helyen felbukkan a mitológiában. A görögöknél Zeusz hattyú képében közeledett Lédához, a hindu mítoszokban pedig a tisztaság és a transzcendencia szimbóluma.')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></p>
                     </div>
                 </div>
                 <div class="fact-trans">
@@ -83,11 +127,23 @@
                 <div class="fact-top">
                     <div class="fact-icon">🎼</div>
                     <div class="fact-content">
-                        <h3>A balettzene születése</h3>
+                        <h3>A balettzene születése <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('A balettzene születése')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></h3>
                         <p>Csajkovszkij 1875-ben kapott felkérést a balett megírására a moszkvai Cári Színháztól. Bár a
                             kortársak kritikával illették („Túlságosan zajos!”), lírai és drámai zenéje
                             forradalmasította a
-                            balettzenét.</p>
+                            balettzenét. <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Csajkovszkij 1875-ben kapott felkérést a balett megírására a moszkvai Cári Színháztól. Bár a kortársak kritikával illették („Túlságosan zajos!”), lírai és drámai zenéje forradalmasította a balettzenét.')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></p>
                     </div>
                 </div>
                 <div class="fact-trans">
@@ -110,9 +166,22 @@
                 <div class="fact-top">
                     <div class="fact-icon">🎭</div>
                     <div class="fact-content">
-                        <h3>Az ősbemutatók</h3>
+                        <h3>Az ősbemutatók <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Az ősbemutatók')"><svg viewBox="0 0 24 24"
+                                    width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></h3>
                         <p>Az 1877-es moszkvai ősbemutató nem aratott sikert. A mű igazi diadalútja az 1895-ös
-                            szentpétervári bemutatóval kezdődött, Marius Petipa és Lev Ivanov koreográfiájával.</p>
+                            szentpétervári bemutatóval kezdődött, Marius Petipa és Lev Ivanov koreográfiájával. <button
+                                class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Az 1877-es moszkvai ősbemutató nem aratott sikert. A mű igazi diadalútja az 1895-ös szentpétervári bemutatóval kezdődött, Marius Petipa és Lev Ivanov koreográfiájával.')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></p>
                     </div>
                 </div>
                 <div class="fact-trans">
@@ -136,9 +205,22 @@
                 <div class="fact-top">
                     <div class="fact-icon">🇳🇱</div>
                     <div class="fact-content">
-                        <h3>Rudi van Dantzig rendezése</h3>
+                        <h3>Rudi van Dantzig rendezése <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Rudi van Dantzig rendezése')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></h3>
                         <p>Rudi van Dantzig 1988-as koreográfiája pszichológiai mélységet ad a történetnek. Itt
                             Siegfried herceg a főszereplő: egy naiv, álmodozó ifjú, aki nem találja helyét az udvarban.
+                            <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Rudi van Dantzig 1988-as koreográfiája pszichológiai mélységet ad a történetnek. Itt Siegfried herceg a főszereplő: egy naiv, álmodozó ifjú, aki nem találja helyét az udvarban.')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button>
                         </p>
                     </div>
                 </div>
@@ -163,9 +245,22 @@
                 <div class="fact-top">
                     <div class="fact-icon">👯‍♀️</div>
                     <div class="fact-content">
-                        <h3>Kettős szerep: Odette és Odile</h3>
+                        <h3>Kettős szerep: Odette és Odile <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Kettős szerep: Odette és Odile')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button></h3>
                         <p>Nagy kihívás, hogy ugyanaz a balerina táncolja Odette-et (a tiszta Fehér Hattyút) és Odile-t
                             (a csábító Fekete Hattyút). A két karakter ellentétes mozgásvilágot és kisugárzást követel.
+                            <button class="speaker-btn"
+                                onclick="event.stopPropagation(); speak('Nagy kihívás, hogy ugyanaz a balerina táncolja Odette-et (a tiszta Fehér Hattyút) és Odile-t (a csábító Fekete Hattyút). A két karakter ellentétes mozgásvilágot és kisugárzást követel.')"><svg
+                                    viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg></button>
                         </p>
                     </div>
                 </div>

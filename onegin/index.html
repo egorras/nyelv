@@ -20,7 +20,37 @@
         <polyline points="9 22 9 12 15 12 15 22"></polyline>
       </svg>
     </a>
-    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()"></button>
+    <div class="top-controls">
+      <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Témaváltás"></button>
+      <div style="position:relative">
+        <button class="icon-btn" id="settings-toggle" onclick="toggleSettings(event)" title="Beállítások">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
+        </button>
+        <div class="settings-menu" id="settings-menu" onclick="event.stopPropagation()">
+          <div class="settings-item">
+            <div class="settings-label">
+              <span style="display:flex; align-items:center">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+                Felolvasás sebessége
+              </span>
+              <span class="speech-rate-value settings-val">1.0x</span>
+            </div>
+            <input type="range" class="speech-rate-slider" min="0.5" max="1.5" step="0.1" value="1.0"
+              oninput="setSpeechRate(this.value)">
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="hero-badge">Neoklasszikus balett</div>
     <h1>Anyegin</h1>
     <div class="hero-sub">Евгений Онегин</div>
@@ -43,6 +73,7 @@
       <div class="view-toggle">
         <button id="view-sentence" class="active" onclick="setStoryView('sentence')">Mondat</button>
         <button id="view-paragraph" onclick="setStoryView('paragraph')">Bekezdés</button>
+
       </div>
       <div id="story-content"></div>
     </div>
@@ -60,10 +91,22 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1F5BC;</div>
           <div class="fact-content">
-            <h3>A tükör, ami nem létezik</h3>
+            <h3>A tükör, ami nem létezik <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A tükör, ami nem létezik')"><svg viewBox="0 0 24 24" width="16"
+                  height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>A híres tükörjelenetben Tatjana álmában Anyegin pontosan tükrözi mozdulatait — de a színpadon nincs
               valódi tükör. Cranko zseniális koreográfiája kelti az illúziót: két táncos tökéletes szimmetriával
-              mozog.</p>
+              mozog. <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A híres tükörjelenetben Tatjana álmában Anyegin pontosan tükrözi mozdulatait — de a színpadon nincs valódi tükör. Cranko zseniális koreográfiája kelti az illúziót: két táncos tökéletes szimmetriával mozog.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -83,9 +126,22 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1F3B5;</div>
           <div class="fact-content">
-            <h3>Nem az az opera!</h3>
+            <h3>Nem az az opera! <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Nem az az opera!')"><svg viewBox="0 0 24 24" width="16"
+                  height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>A balett zenéjét nem az „Jevgenyij Anyegin" operából vették, hanem Csajkovszkij kevésbé ismert
-              zongoraműveiből és zenekari darabjaiból. Kurt-Heinz Stolze hangszerelte át őket nagyzenekarba.</p>
+              zongoraműveiből és zenekari darabjaiból. Kurt-Heinz Stolze hangszerelte át őket nagyzenekarba. <button
+                class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A balett zenéjét nem az Jevgenyij Anyegin operából vették, hanem Csajkovszkij kevésbé ismert zongoraműveiből és zenekari darabjaiból. Kurt-Heinz Stolze hangszerelte át őket nagyzenekarba.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -105,9 +161,21 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1F30D;</div>
           <div class="fact-content">
-            <h3>Stuttgarti világpremier, 1965</h3>
+            <h3>Stuttgarti világpremier, 1965 <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Stuttgarti világpremier, 1965')"><svg viewBox="0 0 24 24"
+                  width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>John Cranko a Stuttgarti Balettnél mutatta be az Anyegint 1965-ben. A bemutató akkora sikert aratott,
-              hogy a közönség 30 percig tapsolt.</p>
+              hogy a közönség 30 percig tapsolt. <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('John Cranko a Stuttgarti Balettnél mutatta be az Anyegint 1965-ben. A bemutató akkora sikert aratott, hogy a közönség 30 percig tapsolt.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -126,9 +194,21 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1F1ED;&#x1F1FA;</div>
           <div class="fact-content">
-            <h3>Budapest és az Anyegin</h3>
+            <h3>Budapest és az Anyegin <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Budapest és az Anyegin')"><svg viewBox="0 0 24 24" width="16"
+                  height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>A Magyar Állami Operaház 2002-ben mutatta be először, majd 2012-ben és 2022-ben is felújította. A
-              budapesti előadásokat a nemzetközi kritika is kiválónak értékelte.</p>
+              budapesti előadásokat a nemzetközi kritika is kiválónak értékelte. <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A Magyar Állami Operaház 2002-ben mutatta be először, majd 2012-ben és 2022-ben is felújította. A budapesti előadásokat a nemzetközi kritika is kiválónak értékelte.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -149,9 +229,22 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1F4DC;</div>
           <div class="fact-content">
-            <h3>Puskin és a verses regény</h3>
+            <h3>Puskin és a verses regény <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Puskin és a verses regény')"><svg viewBox="0 0 24 24"
+                  width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>Az eredeti mű Alekszandr Puskin verses regénye (1833), amelyet az orosz irodalom enciklopédiájának is
-              neveznek. A speciális Anyegin-strófa (14 soros jambikus tetrameter) Puskin saját találmánya.</p>
+              neveznek. A speciális Anyegin-strófa (14 soros jambikus tetrameter) Puskin saját találmánya. <button
+                class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Az eredeti mű Alekszandr Puskin verses regénye (1833), amelyet az orosz irodalom enciklopédiájának is neveznek. A speciális Anyegin-strófa (14 soros jambikus tetrameter) Puskin saját találmánya.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -171,9 +264,22 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1FA70;</div>
           <div class="fact-content">
-            <h3>A levél-motívum</h3>
+            <h3>A levél-motívum <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A levél-motívum')"><svg viewBox="0 0 24 24" width="16"
+                  height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>A levél a balett legfontosabb szimbóluma. Tatjana az I. felvonásban írja meg — Anyegin összetépi. A
-              III. felvonásban Anyegin ír levelet — Tatjana tépi össze. Tökéletes dramaturgiai szimmetria.</p>
+              III. felvonásban Anyegin ír levelet — Tatjana tépi össze. Tökéletes dramaturgiai szimmetria. <button
+                class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A levél a balett legfontosabb szimbóluma. Tatjana az I. felvonásban írja meg — Anyegin összetépi. A III. felvonásban Anyegin ír levelet — Tatjana tépi össze. Tökéletes dramaturgiai szimmetria.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -193,9 +299,22 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1F454;</div>
           <div class="fact-content">
-            <h3>Jelmezek — a kor hangulatát idézve</h3>
+            <h3>Jelmezek — a kor hangulatát idézve <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Jelmezek — a kor hangulatát idézve')"><svg viewBox="0 0 24 24"
+                  width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>A jelmeztervező (eredetileg Elisabeth Dalton) a XIX. századi orosz nemesség viseletét idézi meg. Az
-              I. felvonás vidéki, pasztell tónusú; a III. felvonás szentpétervári bálja sötét és elegáns.</p>
+              I. felvonás vidéki, pasztell tónusú; a III. felvonás szentpétervári bálja sötét és elegáns. <button
+                class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A jelmeztervező (eredetileg Elisabeth Dalton) a XIX. századi orosz nemesség viseletét idézi meg. Az I. felvonás vidéki, pasztell tónusú; a III. felvonás szentpétervári bálja sötét és elegáns.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -215,10 +334,22 @@
         <div class="fact-top">
           <div class="fact-icon">&#x1F469;&#x200D;&#x1F3A4;</div>
           <div class="fact-content">
-            <h3>Tatjana a főszereplő — nem Anyegin</h3>
+            <h3>Tatjana a főszereplő — nem Anyegin <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Tatjana a főszereplő — nem Anyegin')"><svg viewBox="0 0 24 24"
+                  width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>Bár a balett Anyeginről kapta a nevét, Cranko valójában Tatjanát helyezte a középpontba. Ő nyitja és
               zárja az előadást, és az ő belső fejlődése — naiv vidéki lányból határozott, méltóságteljes asszonyig
-              — a mű igazi ívét alkotja.</p>
+              — a mű igazi ívét alkotja. <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Bár a balett Anyeginről kapta a nevét, Cranko valójában Tatjanát helyezte a középpontba. Ő nyitja és zárja az előadást, és az ő belső fejlődése — naiv vidéki lányból határozott, méltóságteljes asszonyig — a mű igazi ívét alkotja.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
@@ -239,10 +370,22 @@
         <div class="fact-top">
           <div class="fact-icon">&#x2702;&#xFE0F;</div>
           <div class="fact-content">
-            <h3>A kivágott prológus</h3>
+            <h3>A kivágott prológus <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('A kivágott prológus')"><svg viewBox="0 0 24 24" width="16"
+                  height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></h3>
             <p>Az eredeti 1965-ös bemutatón volt egy prológus: Anyegin nagybátyja halálos ágyánál. Cranko 1967-re
               kivágta — úgy döntött, a balett erősebb, ha rögtön Tatjanával kezdődik. Az 1967-es, rövidített
-              változat az, amelyet ma is játszanak világszerte.</p>
+              változat az, amelyet ma is játszanak világszerte. <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('Az eredeti 1965-ös bemutatón volt egy prológus: Anyegin nagybátyja halálos ágyánál. Cranko 1967-re kivágta — úgy döntött, a balett erősebb, ha rögtön Tatjanával kezdődik. Az 1967-es, rövidített változat az, amelyet ma is játszanak világszerte.')"><svg
+                  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg></button></p>
           </div>
         </div>
         <div class="fact-trans">
