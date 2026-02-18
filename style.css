@@ -179,12 +179,14 @@ body {
 /* Range input styling */
 input[type=range] {
   -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   background: transparent;
 }
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   height: 16px;
   width: 16px;
   border-radius: 50%;
@@ -395,8 +397,8 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .sentence-hu .hu-text {
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .translation-panel {
@@ -592,11 +594,12 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .quiz-question {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
   margin-bottom: 24px;
   text-align: center;
   min-height: 1.6em;
+  color: var(--text);
 }
 
 .quiz-options {
@@ -821,7 +824,7 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .quiz-result .score {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 3rem;
   color: var(--accent);
 }
@@ -910,7 +913,7 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .stat-num {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
 }
@@ -1021,8 +1024,8 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .card-word {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
   margin-bottom: 8px;
 }
 
@@ -1285,10 +1288,11 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .paragraph-hu {
-  font-size: 1.1rem;
-  color: var(--text);
+  font-size: 0.95rem;
+  color: var(--text-dim);
   margin-bottom: 16px;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.7;
 }
 
 .paragraph-ru {
