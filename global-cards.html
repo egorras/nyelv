@@ -8,8 +8,17 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('nyelv_theme') === 'dark') {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      } catch (e) { }
+    })();
+  </script>
     <title>Tanult Szavak</title>
-    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="style.css?v=1.0.2">
     <style>
         body {
             padding-bottom: 4rem;
@@ -33,23 +42,6 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 0 1rem;
-        }
-
-        .home-link {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            color: var(--text-dim);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .home-link:hover {
-            color: var(--accent);
         }
 
         .card-source-tag {
@@ -210,16 +202,6 @@
 
 <body>
 
-    <a href="index.html" class="home-link">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-        </svg>
-        Vissza
-    </a>
-    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()"
-        style="position:absolute; top:1rem; right:1rem;"></button>
-
     <div class="global-header">
         <h1>Tanult Szavak</h1>
         <p style="color:var(--text-dim)">A teljes szókincsgyűjteményed</p>
@@ -287,6 +269,9 @@
     <script src="swan-lake/data.js?v=1.0.1"></script>
     <script>addDeck('A hattyúk tava');</script>
 
+    <script src="operahaz/data.js?v=1.0.1"></script>
+    <script>addDeck('Az Operaház');</script>
+
     <!-- Final Config -->
     <script>
         const seen = new Set();
@@ -303,19 +288,16 @@
 
         window.APP_DATA = {
             ankiDeck: uniqueDeck,
-            quizPool: {}
+            quizPool: {},
+            isGlobalCards: true,
+            homePath: 'index.html'
         };
     </script>
 
     <!-- App Logic -->
-    <script src="app.js?v=1.0.1"></script>
+    <script type="module" src="app.js?v=1.0.5"></script>
 
-    <script>
-        // Init logic
-        if (typeof initCards === 'function') {
-            initCards();
-        }
-
+    <script type="module">
         function switchView(view) {
             document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-view-' + view).classList.add('active');
@@ -329,6 +311,7 @@
                 renderTable();
             }
         }
+        window.switchView = switchView;
 
         let tableRendered = false;
         function renderTable() {
@@ -393,20 +376,26 @@
         }
 
         // Show source on cards if possible (extension of renderCard)
-        const originalRenderCard = window.renderCard;
-        window.renderCard = function () {
-            originalRenderCard();
-            setTimeout(() => {
-                const cardEl = document.querySelector('.card-front') || document.querySelector('.card-back');
-                if (cardEl) {
-                    // We can't easily map back to source without index, but uniqueDeck matches ankiDeck.
-                    // But app.js logic uses shuffled index.
-                    // Just CSS tweak for now.
-                }
-            }, 0);
-        };
+        // Wait for app code to load
+        setTimeout(() => {
+            const originalRenderCard = window.renderCard;
+            if (originalRenderCard) {
+                window.renderCard = function () {
+                    originalRenderCard();
+                    setTimeout(() => {
+                        const cardEl = document.querySelector('.card-front') || document.querySelector('.card-back');
+                        if (cardEl) {
+                            // Custom logic if needed
+                        }
+                    }, 0);
+                };
+            }
+        }, 500);
     </script>
 
 </body>
 
 </html>
+
+
+

@@ -285,28 +285,28 @@ window.APP_DATA = {
         choice: [
             {
                 q: 'Hogyan képezzük a felsőfokot a magyarban?',
-                a: 'leg- előtag + középfok (pl. legszebb)',
-                wrong: ['leg- előtag + alapfok', '-abb/-ebb rag + leg utótag', 'a- előtag + alapfok']
+                opts: ['leg- előtag + középfok (pl. legszebb)', 'leg- előtag + alapfok', '-abb/-ebb rag + leg utótag', 'a- előtag + alapfok'],
+                correct: 0
             },
             {
                 q: 'Mit fejez ki a delativus (-ról/-ről)?',
-                a: 'Felszínről való távolodást vagy témát (pl. az operáról)',
-                wrong: ['Valami felé való mozgást', 'Valamin belüli tartózkodást', 'Valakinek szóló adást']
+                opts: ['Felszínről való távolodást vagy témát (pl. az operáról)', 'Valami felé való mozgást', 'Valamin belüli tartózkodást', 'Valakinek szóló adást'],
+                correct: 0
             },
             {
                 q: 'Mit jelent a »palotája« szóban a -ja rag?',
-                a: 'A 3. személyű egyes szám birtok (az ő palotája)',
-                wrong: ['A határozott névelő', 'Az akkuzatívusz jele', 'A többes szám jele']
+                opts: ['A 3. személyű egyes szám birtok (az ő palotája)', 'A határozott névelő', 'Az akkuzatívusz jele', 'A többes szám jele'],
+                correct: 0
             },
             {
                 q: 'Melyik szó képzett főnév az »előad« igéből?',
-                a: 'előadás',
-                wrong: ['előadó', 'előadott', 'előadni']
+                opts: ['előadás', 'előadó', 'előadott', 'előadni'],
+                correct: 0
             },
             {
                 q: 'Mit fejez ki a feltételes mód a »szeretnék« szóban?',
-                a: 'Vágyat vagy lehetőséget, ami nem biztos, hogy megvalósul',
-                wrong: ['Jövő idejű cselekvést', 'Parancsot vagy felszólítást', 'Múltban befejezett cselekvést']
+                opts: ['Vágyat vagy lehetőséget, ami nem biztos, hogy megvalósul', 'Jövő idejű cselekvést', 'Parancsot vagy felszólítást', 'Múltban befejezett cselekvést'],
+                correct: 0
             }
         ],
         fill: [

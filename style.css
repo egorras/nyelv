@@ -98,18 +98,30 @@ body {
   }
 }
 
-/* ── Top Controls (Theme + Settings) ── */
-.top-controls {
+/* ── Top Navigation ── */
+.top-nav {
   position: fixed;
   top: 0.5rem;
-  right: 1rem;
+  left: 0.5rem;
+  right: 0.5rem;
   display: flex;
-  gap: 8px;
-  z-index: 210;
-  /* Higher than tabs */
+  justify-content: space-between;
+  align-items: center;
+  z-index: 250;
+  pointer-events: none;
 }
 
-.icon-btn {
+.top-nav>* {
+  pointer-events: auto;
+}
+
+.top-controls {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.top-btn {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
   width: 40px;
@@ -121,17 +133,28 @@ body {
   justify-content: center;
   color: var(--text);
   transition: all .3s;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.icon-btn:hover {
+.top-btn:hover {
   background: var(--card);
-  transform: scale(1.1);
+  transform: scale(1.05);
+  border-color: var(--accent);
 }
 
-.icon-btn svg {
+.top-btn svg {
   width: 20px;
   height: 20px;
+}
+
+.home-btn {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* Settings Menu Dropdown */
@@ -610,6 +633,28 @@ input[type=range]::-webkit-slider-runnable-track {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+/* Accessibility: Reset button styles for interactive elements */
+button.quiz-opt,
+button.fill-chip,
+button.order-word {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  text-align: inherit;
+  border-style: solid;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  width: 100%;
+  /* For quiz-opt in flex column */
+}
+
+button.fill-chip,
+button.order-word {
+  width: auto;
+  /* Revert width for inline chips */
 }
 
 .quiz-opt {
@@ -1174,68 +1219,6 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 /* ── Theme toggle ── */
-.theme-toggle {
-  position: absolute;
-  right: 16px;
-  top: 16px;
-  z-index: 1;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--accent);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: background .2s, border-color .2s;
-  flex-shrink: 0;
-}
-
-.theme-toggle:hover {
-  background: var(--card-hover);
-  border-color: var(--accent);
-}
-
-.theme-toggle svg {
-  width: 17px;
-  height: 17px;
-}
-
-.home-btn {
-  position: fixed;
-  left: 16px;
-  top: 8px;
-  z-index: 210;
-  /* Higher than tabs */
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--accent);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: background .2s, border-color .2s;
-  flex-shrink: 0;
-  text-decoration: none;
-}
-
-.home-btn:hover {
-  background: var(--card-hover);
-  border-color: var(--accent);
-}
-
-.home-btn svg {
-  width: 17px;
-  height: 17px;
-}
-
 /* ── Footer ── */
 .footer {
   text-align: center;
@@ -1327,6 +1310,26 @@ input[type=range]::-webkit-slider-runnable-track {
 .speaker-btn:hover {
   background: rgba(201, 168, 76, 0.15);
   transform: scale(1.1);
+}
+
+.speaker-btn.is-playing {
+  color: var(--purple);
+  background: rgba(124, 92, 191, 0.15);
+  animation: pulse-small 1.5s infinite;
+}
+
+@keyframes pulse-small {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .sentence-hu .hu-text {
@@ -1527,17 +1530,6 @@ input[type=range]::-webkit-slider-runnable-track {
 
 /* -- Mobile Navigation Adjustments -- */
 @media (max-width: 600px) {
-
-  .top-controls,
-  .home-btn {
-    position: absolute;
-    top: 1rem;
-  }
-
-  .home-btn {
-    top: 16px;
-  }
-
   .tabs {
     top: 0;
     justify-content: flex-start;
@@ -1554,3 +1546,5 @@ input[type=range]::-webkit-slider-runnable-track {
     border-radius: 8px;
   }
 }
+
+
