@@ -422,6 +422,177 @@ window.APP_DATA = {
         ]
     },
 
+    // ── Grammar data ────────────────────────────────────────────────────────────
+    grammarData: [
+        {
+            type: 'ige', typeLabel: 'Igék',
+            title: 'Tárgyas ragozás (határozott igeragozás)',
+            icon: '🔀',
+            summary: 'Kétféle igeragozás: határozatlan és határozott — два спряжения глагола',
+            explanation: 'A magyarban az igéknek kétféle ragozásuk van: alanyi (határozatlan) és tárgyas (határozott). Ha a tárgy határozott (névelős főnév), tárgyasan ragozzuk az igét: látom a hattyút. Ha a tárgy határozatlan (pl. határozatlan névelővel vagy névelő nélkül), alanyi ragozást használunk: látok egy hattyút.',
+            explanationRu: 'В венгерском у глаголов два спряжения: неопределённое (субъективное) и определённое (объективное). Определённое спряжение используется, когда прямое дополнение является определённым (с артиклем «a/az»). Это одна из самых характерных черт венгерской грамматики, аналогов в русском нет.',
+            examples: [
+                { hu: 'lát<b>ok</b> egy hattyút', ru: 'вижу (какого-то) лебедя', note: 'határozatlan ragozás — неопределённое спряжение' },
+                { hu: 'lát<b>om</b> a hattyút', ru: 'вижу (этого) лебедя', note: 'tárgyas ragozás — определённое спряжение' },
+                { hu: 'Siegfried ünnep<b>li</b> a születésnapját', ru: 'Зигфрид отмечает свой день рождения', note: 'határozott tárgy → tárgyas alak (-li)' },
+                { hu: 'hercegnőt keres', ru: 'ищет принцессу', note: 'határozatlan tárgy → alanyi alak (-∅)' }
+            ],
+            links: [
+                { label: 'Definite Conjugation — hungarianreference.com', url: 'http://www.hungarianreference.com/Verbs/Verbs-Definite-Conjugation.aspx' },
+                { label: 'Hungarian verbs — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_verbs' }
+            ]
+        },
+        {
+            type: 'eset', typeLabel: 'Esetragok',
+            title: 'Allativus (-hoz/-hez/-höz)',
+            icon: '➡️',
+            summary: 'Mozgás valaki/valami felé — движение к кому-то/чему-то',
+            explanation: 'Az allativus azt fejezi ki, hogy valaki vagy valami felé, közelébe mozgunk. Személyekhez és tárgyakhoz egyaránt használható. Magánhangzó-harmónia szerint: mély hangrendű szavakhoz -hoz, magas (elülső) hangrendűekhez -hez, magas (kerek) hangrendűekhez -höz járul.',
+            explanationRu: 'Аллатив обозначает движение к кому-то или чему-то, приближение. Соответствует русскому «к + дательный падеж». Суффиксы по вокальной гармонии: -hoz (задний ряд — a, á, o, ó, u, ú), -hez (передний — e, é, i, í), -höz (передний огублённый — ö, ő, ü, ű).',
+            examples: [
+                { hu: 'a tó<b>hoz</b> megy', ru: 'идёт к озеру', note: 'tó — mély hangrendű → -hoz' },
+                { hu: 'Odette-<b>hez</b> közelít', ru: 'приближается к Одетте', note: 'Odette — magas hangrendű → -hez' },
+                { hu: 'a királyné<b>hoz</b> fordul', ru: 'обращается к королеве', note: 'királyné — mély hangrendű → -hoz' },
+                { hu: 'Siegfried<b>hez</b> jön', ru: 'приходит к Зигфриду', note: 'Siegfried — magas hangrendű → -hez' }
+            ],
+            links: [
+                { label: 'Allative -hoz/-hez/-höz — hungarianreference.com', url: 'http://www.hungarianreference.com/Nouns/hoz-hez-h%C3%B6z-allative.aspx' },
+                { label: 'Hungarian case — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_case' }
+            ]
+        },
+        {
+            type: 'igenev', typeLabel: 'Igenevek',
+            title: 'Folyamatos melléknévi igenév (-ó/-ő)',
+            icon: '📎',
+            summary: 'Igéből képzett melléknév — причастие настоящего времени',
+            explanation: 'A folyamatos melléknévi igenév (-ó/-ő) igéből képzett melléknév, amely folyamatban lévő vagy jellemző cselekvést fejez ki. Főnév előtt jelzőként áll, de önállóan is főnévvé válhat (pl. varázsló = az, aki varázsolni szokott). Mély hangrendű igékhez -ó, magas hangrendűekhez -ő járul.',
+            explanationRu: 'Причастие настоящего времени образуется суффиксом -ó/-ő и описывает действие, характерное для субъекта. Соответствует русским причастиям на «-ющий/-ящий». Может использоваться как прилагательное (táncoló lányok — танцующие девушки) или само стать существительным (varázsló — волшебник).',
+            examples: [
+                { hu: 'varázs<b>ló</b>', ru: 'волшебник (тот, кто колдует)', note: 'varázsol → varázsló — önálló főnév lett' },
+                { hu: 'táncol<b>ó</b> lányok', ru: 'танцующие девушки', note: 'táncol → táncoló (jelzői szerepben)' },
+                { hu: 'repül<b>ő</b> hattyú', ru: 'летящий лебедь', note: 'repül → repülő (jelzői szerepben)' },
+                { hu: 'besötéted<b>ő</b> tó', ru: 'темнеющее озеро', note: 'besötétedik → besötétedő' }
+            ],
+            links: [
+                { label: 'Participles — hungarianreference.com', url: 'http://hungarianreference.com/Participles/' },
+                { label: 'Hungarian grammar — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_grammar' }
+            ]
+        },
+        {
+            type: 'kepzo', typeLabel: 'Képzők',
+            title: 'Fosztóképző (-talan/-telen / -atlan/-etlen)',
+            icon: '🚫',
+            summary: 'Valami hiányát kifejező képző — приватный суффикс «без-/бес-»',
+            explanation: 'A fosztóképző (-talan/-telen, mássalhangzóra végződő szavakhoz -atlan/-etlen) olyan mellékneveket alkot, amelyek valaminek a hiányát fejezik ki. Magánhangzó-harmónia szerint: mély hangrendű szavakhoz -talan/-atlan, magas hangrendűekhez -telen/-etlen járul.',
+            explanationRu: 'Приватный суффикс образует прилагательные со значением «лишённый чего-то, без чего-то». Соответствует русским приставкам «бес-/без-» или прилагательным с отрицанием «не-». По вокальной гармонии: -talan/-atlan (задний ряд), -telen/-etlen (передний ряд).',
+            examples: [
+                { hu: 'gond<b>talan</b>', ru: 'беззаботный', note: 'gond (забота) + -talan → без забот' },
+                { hu: 'remény<b>telen</b>', ru: 'безнадёжный', note: 'remény (надежда) + -telen → без надежды' },
+                { hu: 'kímél<b>etlen</b>', ru: 'безжалостный', note: 'kímél (щадить) + -etlen → безжалостный' },
+                { hu: 'szín<b>telen</b>', ru: 'бесцветный', note: 'szín (цвет) + -telen → без цвета' }
+            ],
+            links: [
+                { label: 'Hungarian grammar — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_grammar' }
+            ]
+        },
+        {
+            type: 'igekoto', typeLabel: 'Igekötők',
+            title: 'El- igekötő (távolodás, elvégzés)',
+            icon: '↩️',
+            summary: 'Távolodás vagy cselekvés teljes elvégzése — приставка «у-/от-/пре-»',
+            explanation: 'Az el- igekötő két fő jelentést hordoz: (1) távolodást, eltávolodást (elmegy = elutazik, eltűnik), (2) a cselekvés teljes elvégzését vagy egy végleges változást (elárul = megcsal, elveszít = teljesen elveszít). Sok igével lexikalizálódott, önálló szót alkotva.',
+            explanationRu: 'Приставка el- имеет два основных значения: (1) удаление или исчезновение (elmegy — уходить, eltűnik — исчезать), (2) завершённость действия с часто необратимым результатом (elárul — предавать, elveszít — потерять навсегда). Соответствует русск. «у-», «от-», «за-», «раз-».',
+            examples: [
+                { hu: 'megy → el<b>megy</b>', ru: 'уходить', note: 'megy = идти; el + megy = уйти' },
+                { hu: 'vakít → el<b>vakítja</b>', ru: 'ослепляет', note: 'vakít = слепить + el = окончательно' },
+                { hu: 'árul → el<b>árulja</b>', ru: 'предаёт', note: 'árul = продавать → elárul = предавать' },
+                { hu: 'felejt → el<b>felejt</b>', ru: 'забывает (напрочь)', note: 'felejt = забывать + el = окончательно' }
+            ],
+            links: [
+                { label: 'Verbal prefixes (el-, meg-...) — hungarianreference.com', url: 'http://www.hungarianreference.com/Verbs/verbal-prefixes-coverb-coverbs-meg-el-ki-le-be-fel.aspx' },
+                { label: 'Hungarian grammar — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_grammar' }
+            ]
+        },
+        {
+            type: 'igenev', typeLabel: 'Igenevek',
+            title: 'Személyragos főnévi igenév (-nia/-nie)',
+            icon: '👤',
+            summary: 'kell/lehet + személyragos igenév — инфинитив с личными окончаниями',
+            explanation: 'Bizonyos személytelen igék (kell — kell, lehet — lehet, szabad — szabad) után a főnévi igenév személyraggal egyezik az alannyal. 3. személyű egyes szám: -nia/-nie. Az alany dativusban áll (-nak/-nek rag). Pl.: Siegfriednek harcolnia kell.',
+            explanationRu: 'После безличных глаголов (kell — надо, lehet — можно, szabad — разрешается) инфинитив получает личные окончания, согласующиеся с субъектом. 3-е лицо ед. ч.: -nia (задн.) / -nie (перед.). Субъект стоит в дательном падеже (-nak/-nek). Аналог в русском: «ему нужно + инфинитив».',
+            examples: [
+                { hu: 'Siegfriednek harcol<b>nia</b> kell', ru: 'Зигфриду нужно сражаться', note: 'harcol → harcolnia (3. sz. -nia)' },
+                { hu: 'meg kell ment<b>enie</b> Odette-t', ru: 'ему нужно спасти Одетту', note: 'ment → mentenie (3. sz. -nie)' },
+                { hu: 'nem lehet lát<b>nia</b> az igazat', ru: 'он не может видеть правды', note: 'lát → látnia (3. sz. -nia)' },
+                { hu: 'el kell foglal<b>nia</b> a trónját', ru: 'ему нужно занять трон', note: 'foglal + el → elfoglalnia' }
+            ],
+            links: [
+                { label: 'Infinitive with personal suffixes (kell) — hungarianreference.com', url: 'http://www.hungarianreference.com/Verbs/need-must-kell-infinitives-with-personal-suffixes.aspx' },
+                { label: 'Hungarian grammar — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_grammar' }
+            ]
+        }
+    ],
+
+    // ── Grammar quiz pool ───────────────────────────────────────────────────────
+    grammarQuizPool: {
+        choice: [
+            {
+                q: 'Mit jelent a tárgyas ragozás (pl. »látom a hattyút«)?',
+                a: 'A tárgy határozott (névelős)',
+                wrong: ['Az alany első személyű', 'Az ige múlt időben van', 'A mondat kérdő']
+            },
+            {
+                q: 'Melyik allativus ragot kell használni: »a tó___«?',
+                a: '-hoz (mély hangrendű szó)',
+                wrong: ['-hez (magas elülső)', '-höz (magas kerek)', '-nak (dativus)'],
+                hint: 'tó — mély hangrendű magánhangzó: o'
+            },
+            {
+                q: 'Mit fejez ki a »gondtalan« szó (gond + fosztóképző)?',
+                a: 'Беззаботный — aggodalom nélküli',
+                wrong: ['Gondos, figyelmes', 'Gondolkodó, elmélkedő', 'Gondot okozó']
+            },
+            {
+                q: 'Melyik szó tartalmaz folyamatos melléknévi igenevet (-ó/-ő)?',
+                a: 'varázsló (az, aki varázsolni szokott)',
+                wrong: ['varázslat (főnév, képző nélkül)', 'varázsol (ige)', 'varázsos (melléknév, -os képzővel)']
+            },
+            {
+                q: 'Melyik mondatban helyes a személyragos főnévi igenév?',
+                a: 'Siegfriednek harcolnia kell.',
+                wrong: ['Siegfried harcolnia kell.', 'Siegfriednek harcol kell.', 'Siegfriednek harcolni kell.'],
+                hint: 'kell + 3. sz. alany (dativusban) → -nia/-nie személyrag'
+            }
+        ],
+        fill: [
+            {
+                sentence: 'Siegfried lát__ a hattyút. (tárgyas ragozás, jelen idő, 3. sz.)',
+                answer: 'ja',
+                hint: 'határozott tárgy → tárgyas ragozás: lát → látja'
+            },
+            {
+                sentence: 'A tó___ megy a herceg. (allativus, mély hangrendű)',
+                answer: 'hoz',
+                hint: 'tó → mély hangrendű → allativus: -hoz'
+            },
+            {
+                sentence: 'Siegfriednek meg kell menten___ Odette-t. (személyragos igenév, 3. sz.)',
+                answer: 'ie',
+                hint: 'ment + 3. sz. → -enie → mentenie'
+            }
+        ],
+        order: [
+            {
+                words: ['Siegfried', 'ünnepli', 'a', 'születésnapját'], ru: 'Зигфрид отмечает свой день рождения',
+                hint: 'Alany + tárgyas ige + határozott tárgy (névelő + főnév)'
+            },
+            {
+                words: ['Siegfriednek', 'harcolnia', 'kell'], ru: 'Зигфриду нужно сражаться',
+                hint: 'Alany dativusban + személyragos főnévi igenév + kell'
+            }
+        ]
+    },
+
     ankiDeck: [
         { hu: 'hattyú', pos: 'főnév', ru: 'лебедь', en: 'swan', ex: 'A tóban úszik egy hattyú.' },
         { hu: 'herceg', pos: 'főnév', ru: 'принц / князь', en: 'prince', ex: 'Siegfried herceg ünnepli a születésnapját.' },
