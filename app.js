@@ -68,6 +68,19 @@ function observeFadeIns() {
 }
 observeFadeIns();
 
+// ── TTS Helper ──
+function speak(text, lang = 'hu-HU') {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang;
+  // Optional: try to find a native voice
+  const voices = window.speechSynthesis.getVoices();
+  const voice = voices.find(v => v.lang === lang && !v.localService) || voices.find(v => v.lang === lang);
+  if (voice) u.voice = voice;
+  window.speechSynthesis.speak(u);
+}
+
 // ── Render story from data ──
 let currentStoryView = 'sentence';
 
@@ -93,6 +106,8 @@ function renderStory() {
   const storyData = (window.APP_DATA || {}).storyData || [];
   if (!storyData.length) return;
 
+  const SPEAKER_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+
   let html = '';
 
   if (currentStoryView === 'paragraph') {
@@ -111,9 +126,13 @@ function renderStory() {
           huPara += block.hu + ' ';
           if (block.ru) ruPara += block.ru + ' ';
         }
+        huPara = huPara.trim();
 
         html += '<div class="paragraph-block fade-in">'
-          + '<div class="paragraph-hu">' + escHtml(huPara) + '</div>'
+          + '<div class="paragraph-hu">'
+          + escHtml(huPara)
+          + '<button class="speaker-btn" onclick="speak(\'' + escAttr(huPara) + '\', \'hu-HU\')">' + SPEAKER_ICON + '</button>'
+          + '</div>'
           + (ruPara.trim() ? '<div class="paragraph-ru">' + escHtml(ruPara) + '</div>' : '')
           + '</div>';
       }
@@ -143,7 +162,10 @@ function renderStory() {
 
           html += '<div class="bilingual-block fade-in">'
             + '<div class="sentence-hu' + (block.ru ? '" onclick="toggleTranslation(this)"' : ' no-trans"') + '>'
-            + '<div class="hu-text">' + escHtml(block.hu) + '</div>'
+            + '<div class="hu-text">'
+            + escHtml(block.hu)
+            + '<button class="speaker-btn" onclick="event.stopPropagation(); speak(\'' + escAttr(block.hu) + '\', \'hu-HU\')">' + SPEAKER_ICON + '</button>'
+            + '</div>'
             + '</div>'
             + translationHtml
             + '</div>';
@@ -534,15 +556,21 @@ function renderCard() {
     easy: formatInterval(INTERVALS[Math.min(boxNow + 2, INTERVALS.length - 1)]),
   };
 
+  const SPEAKER_ICON = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+
   box.innerHTML =
     '<div class="card-flip" id="card-flip" onclick="flipCard()">' +
     '<div class="card-face card-front">' +
-    '<div class="card-word">' + escHtml(card.hu) + '</div>' +
+    '<div class="card-word">' + escHtml(card.hu) +
+    ' <button class="speaker-btn card-speaker" onclick="event.stopPropagation(); speak(\'' + escAttr(card.hu) + '\')">' + SPEAKER_ICON + '</button>' +
+    '</div>' +
     '<div class="card-pos">' + escHtml(card.pos) + '</div>' +
     '<div class="card-tap-label">koppints a ford\u00edt\u00e1s\u00e9rt</div>' +
     '</div>' +
     '<div class="card-face card-back">' +
-    '<div class="card-word">' + escHtml(card.hu) + '</div>' +
+    '<div class="card-word">' + escHtml(card.hu) +
+    ' <button class="speaker-btn card-speaker" onclick="event.stopPropagation(); speak(\'' + escAttr(card.hu) + '\')">' + SPEAKER_ICON + '</button>' +
+    '</div>' +
     '<div class="card-translation">' + escHtml(card.ru) + '</div>' +
     '<div class="card-translation-en">' + escHtml(card.en) + '</div>' +
     '<div class="card-example">\u00ab' + escHtml(card.ex) + '\u00bb</div>' +
@@ -562,6 +590,11 @@ function flipCard() {
   cardFlipped = true;
   document.getElementById('card-flip').classList.add('flipped');
   document.getElementById('card-actions').style.display = 'flex';
+  // Optional: auto-speak on flip? User asked for "read out", maybe manual is safer to not be annoying.
+  // Check if we want to auto-speak:
+  const ci = cardQueue[cardIdx];
+  const card = ankiDeck[ci];
+  speak(card.hu);
 }
 
 function rateCard(rating) {

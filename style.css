@@ -1194,3 +1194,39 @@ body {
   border-top: 1px solid var(--border);
   font-family: 'Inter', sans-serif;
 }
+
+/* ── Speaker Button ── */
+.speaker-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all .2s;
+  vertical-align: middle;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.speaker-btn:hover {
+  background: rgba(201, 168, 76, 0.15);
+  transform: scale(1.1);
+}
+
+.sentence-hu .hu-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-speaker {
+  margin-left: 12px;
+  opacity: 0.8;
+}
+
+.paragraph-hu .speaker-btn {
+  margin-left: 10px;
+}
