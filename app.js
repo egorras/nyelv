@@ -41,6 +41,10 @@
       const factsTab = document.querySelector('.tab[data-tab="facts"]');
       if (factsTab) factsTab.style.display = 'none';
     }
+    if (!d.grammarData || d.grammarData.length === 0) {
+      const grammarTab = document.querySelector('.tab[data-tab="grammar"]');
+      if (grammarTab) grammarTab.style.display = 'none';
+    }
   }
 })();
 
@@ -765,6 +769,10 @@ function injectSpeakerIcons(root) {
   const ICON = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
 
   notes.forEach(b => {
+    // Better check: is the next element a speaker button? (Prevents double insertion)
+    const next = b.nextElementSibling;
+    if (next && next.classList.contains('speaker-btn')) return;
+
     if (b.querySelector('.speaker-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'speaker-btn';
@@ -780,6 +788,325 @@ function injectSpeakerIcons(root) {
   });
 }
 
+// ── Render Grammar ──
+function renderGrammar() {
+  const container = document.getElementById('grammar-content');
+  if (!container) return;
+  const grammarData = (window.APP_DATA || {}).grammarData || [];
+  if (!grammarData.length) return;
+
+  const CHEVRON = `<svg class="grammar-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+  const LINK_ICON = `<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+
+  // Group by type, preserving order of first appearance
+  const groups = {};
+  const groupOrder = [];
+  for (const entry of grammarData) {
+    if (!groups[entry.type]) {
+      groups[entry.type] = { label: entry.typeLabel, entries: [] };
+      groupOrder.push(entry.type);
+    }
+    groups[entry.type].entries.push(entry);
+  }
+
+  let html = '';
+  let isFirst = true;
+
+  for (const type of groupOrder) {
+    const group = groups[type];
+    html += `<div class="grammar-group-label">${escHtml(group.label)}</div>`;
+
+    for (const entry of group.entries) {
+      const openClass = isFirst ? ' open' : '';
+      isFirst = false;
+
+      const examplesHtml = entry.examples.map(ex =>
+        `<div class="grammar-example">
+          <div class="grammar-example-hu">${ex.hu}</div>
+          <div class="grammar-example-ru">${escHtml(ex.ru)}</div>
+          ${ex.note ? `<div class="grammar-example-note">${escHtml(ex.note)}</div>` : ''}
+        </div>`
+      ).join('');
+
+      const linksHtml = (entry.links || []).map(link =>
+        `<a class="grammar-link" href="${escAttr(link.url)}" target="_blank" rel="noopener">${LINK_ICON} ${escHtml(link.label)}</a>`
+      ).join('');
+
+      const explanationRuHtml = entry.explanationRu
+        ? `<div class="grammar-explanation grammar-explanation-ru"><span class="trans-flag" style="font-size:0.7rem;margin-right:6px;vertical-align:middle">RU</span>${escHtml(entry.explanationRu)}</div>`
+        : '';
+
+      html += `
+        <div class="grammar-card${openClass} fade-in">
+          <div class="grammar-card-header" onclick="toggleGrammarCard(this.parentElement)">
+            <div class="grammar-card-icon">${entry.icon}</div>
+            <div class="grammar-card-meta">
+              <div class="grammar-card-title">${escHtml(entry.title)}</div>
+              <div class="grammar-card-summary">${escHtml(entry.summary)}</div>
+            </div>
+            ${CHEVRON}
+          </div>
+          <div class="grammar-card-body" onclick="event.stopPropagation()">
+            <div class="grammar-explanation">${escHtml(entry.explanation)}</div>
+            ${explanationRuHtml}
+            <div class="grammar-examples">${examplesHtml}</div>
+            ${linksHtml ? `<div class="grammar-links">${linksHtml}</div>` : ''}
+          </div>
+        </div>`;
+    }
+  }
+
+  container.innerHTML = html;
+  requestAnimationFrame(observeFadeIns);
+}
+
+function toggleGrammarCard(card) {
+  card.classList.toggle('open');
+}
+
+// ══════════════════════════════════════
+// ── Grammar Quiz Engine ──
+// ══════════════════════════════════════
+
+let gQuizSession = [], gQuizIndex = 0, gQuizScore = 0, gQuizAnswered = false, gQuizResults = [];
+
+function buildGrammarQuizSession() {
+  const pool = (window.APP_DATA || {}).grammarQuizPool || {};
+  const session = [];
+  const pick = (arr, n) => arr && arr.length ? shuffle([...arr]).slice(0, n) : [];
+  pick(pool.choice, 4).forEach(q => session.push({ type: 'choice', data: q }));
+  pick(pool.fill, 3).forEach(q => session.push({ type: 'fill', data: q }));
+  pick(pool.order, 2).forEach(q => session.push({ type: 'order', data: q }));
+  return shuffle(session);
+}
+
+function startGrammarQuiz() {
+  const pool = (window.APP_DATA || {}).grammarQuizPool;
+  if (!pool || !pool.choice || !pool.choice.length) {
+    const section = document.getElementById('grammar-quiz-section');
+    if (section) section.style.display = 'none';
+    return;
+  }
+  gQuizSession = buildGrammarQuizSession();
+  gQuizIndex = 0;
+  gQuizScore = 0;
+  gQuizResults = [];
+  renderGrammarQuiz();
+}
+
+function gRenderProgressDots() {
+  return '<div class="quiz-progress">' +
+    gQuizSession.map((_, i) => {
+      let cls = 'quiz-dot';
+      if (i < gQuizIndex) cls += gQuizResults[i] ? ' done' : ' failed';
+      else if (i === gQuizIndex) cls += ' current';
+      return '<div class="' + cls + '"></div>';
+    }).join('') + '</div>';
+}
+
+function gRecordResult(correct) {
+  gQuizResults[gQuizIndex] = correct;
+  if (correct) gQuizScore++;
+  const area = document.getElementById('grammar-quiz-area');
+  if (area) {
+    const progEl = area.querySelector('.quiz-progress');
+    if (progEl) progEl.outerHTML = gRenderProgressDots();
+  }
+}
+
+function renderGrammarQuiz() {
+  const area = document.getElementById('grammar-quiz-area');
+  if (!area) return;
+  const dots = gRenderProgressDots();
+
+  if (gQuizIndex >= gQuizSession.length) {
+    const pct = Math.round(gQuizScore / gQuizSession.length * 100);
+    area.innerHTML = dots +
+      '<div class="quiz-result">' +
+      '<div class="score">' + gQuizScore + ' / ' + gQuizSession.length + '</div>' +
+      '<p>' + (pct >= 80 ? 'Kiv\u00e1l\u00f3! \u00c9rtesz a grammatik\u00e1hoz!' : pct >= 50 ? 'J\u00f3 munka! Gyakorolj tov\u00e1bb!' : 'Ne add fel, pr\u00f3b\u00e1ld \u00fajra!') + '</p>' +
+      '<button class="quiz-restart" onclick="startGrammarQuiz()">\u00dajra</button>' +
+      '</div>';
+    return;
+  }
+
+  gQuizAnswered = false;
+  const item = gQuizSession[gQuizIndex];
+  const typeName = { choice: 'V\u00e1lassz', fill: 'T\u00f6ltsd ki', order: 'Rakd sorba' }[item.type];
+  if (item.type === 'choice') gRenderChoice(area, dots, item.data, typeName);
+  else if (item.type === 'fill') gRenderFill(area, dots, item.data, typeName);
+  else if (item.type === 'order') gRenderOrder(area, dots, item.data, typeName);
+}
+
+// ── Grammar Choice ──
+function gRenderChoice(area, dots, data, label) {
+  area.innerHTML = dots +
+    '<div class="quiz-type-badge choice">' + label + '</div>' +
+    '<div class="quiz-question">' + escHtml(data.q) + '</div>' +
+    '<div class="quiz-options" id="g-quiz-options"></div>' +
+    '<div class="quiz-feedback" id="g-quiz-feedback"></div>' +
+    '<div class="quiz-btn-row"><button class="quiz-next" id="g-quiz-next" onclick="gNextQuestion()">' + 'K\u00f6vetkez\u0151</button></div>';
+
+  const optsEl = document.getElementById('g-quiz-options');
+  const allIdxs = data.opts.map((_, i) => i);
+  const shuffledIdxs = shuffle([...allIdxs]);
+  const newCorrect = shuffledIdxs.indexOf(data.correct);
+  window._gCurrentHint = data.hint;
+  window._gCurrentCorrectIdx = newCorrect;
+
+  optsEl.innerHTML = shuffledIdxs.map((origIdx, i) =>
+    '<div class="quiz-opt" onclick="gAnswerChoice(this,' + i + ')">' + escHtml(data.opts[origIdx]) + '</div>'
+  ).join('');
+}
+
+function gAnswerChoice(el, idx) {
+  if (gQuizAnswered) return;
+  gQuizAnswered = true;
+  const correct = window._gCurrentCorrectIdx;
+  document.querySelectorAll('#g-quiz-options .quiz-opt').forEach(o => o.classList.add('disabled'));
+  const fb = document.getElementById('g-quiz-feedback');
+  if (idx === correct) {
+    el.classList.add('correct');
+    fb.innerHTML = '<span style="color:var(--success)">Helyes!</span>';
+    gRecordResult(true);
+  } else {
+    el.classList.add('wrong');
+    document.querySelectorAll('#g-quiz-options .quiz-opt')[correct].classList.add('correct');
+    fb.innerHTML = '<span style="color:var(--danger)">Sajnos nem.</span>' +
+      '<div class="quiz-hint">' + escHtml(window._gCurrentHint) + '</div>';
+    gRecordResult(false);
+  }
+  document.getElementById('g-quiz-next').classList.add('show');
+}
+
+// ── Grammar Fill ──
+function gRenderFill(area, dots, data, label) {
+  const parts = data.sentence.split('___');
+  const allOpts = shuffle([data.blank, ...data.distractors]);
+  window._gFillCorrect = data.blank;
+  window._gFillHint = data.hint;
+
+  area.innerHTML = dots +
+    '<div class="quiz-type-badge fill">' + label + '</div>' +
+    '<div class="fill-container">' +
+    '<div class="fill-sentence">' +
+    escHtml(parts[0]) + '<span class="fill-blank" id="g-fill-blank">?</span>' + escHtml(parts[1] || '') +
+    getSpeakerBtn(data.sentence.replace('___', '...'), 'hu-HU') +
+    '</div>' +
+    '<div class="fill-options" id="g-fill-options">' +
+    allOpts.map(o => '<div class="fill-chip" onclick="gAnswerFill(this,\'' + escAttr(o) + '\')">' + escHtml(o) + '</div>').join('') +
+    '</div></div>' +
+    '<div class="quiz-feedback" id="g-quiz-feedback"></div>' +
+    '<div class="quiz-btn-row"><button class="quiz-next" id="g-quiz-next" onclick="gNextQuestion()">' + 'K\u00f6vetkez\u0151</button></div>';
+}
+
+function gAnswerFill(el, chosen) {
+  if (gQuizAnswered) return;
+  gQuizAnswered = true;
+  const correct = window._gFillCorrect;
+  const blank = document.getElementById('g-fill-blank');
+  const fb = document.getElementById('g-quiz-feedback');
+  blank.textContent = chosen;
+  document.querySelectorAll('#g-fill-options .fill-chip').forEach(c => c.style.pointerEvents = 'none');
+  if (chosen === correct) {
+    blank.classList.add('correct-answer');
+    el.classList.add('correct');
+    fb.innerHTML = '<span style="color:var(--success)">Helyes!</span>';
+    gRecordResult(true);
+  } else {
+    blank.classList.add('wrong-answer');
+    el.classList.add('wrong');
+    document.querySelectorAll('#g-fill-options .fill-chip').forEach(c => {
+      if (c.textContent === correct) c.classList.add('correct');
+    });
+    fb.innerHTML = '<span style="color:var(--danger)">Helyes v\u00e1lasz: <b>' + escHtml(correct) + '</b></span>' +
+      '<div class="quiz-hint">' + escHtml(window._gFillHint) + '</div>';
+    gRecordResult(false);
+  }
+  document.getElementById('g-quiz-next').classList.add('show');
+}
+
+// ── Grammar Order ──
+function gRenderOrder(area, dots, data, label) {
+  const shuffledWords = shuffle([...data.words]);
+  window._gOrderCorrect = data.words;
+  window._gOrderPlaced = [];
+  window._gOrderHint = data.hint;
+
+  area.innerHTML = dots +
+    '<div class="quiz-type-badge order">' + label + '</div>' +
+    '<div class="quiz-question" style="font-size:1rem;font-family:Inter,sans-serif;color:var(--text-dim)">' +
+    escHtml(data.ru) + '</div>' +
+    '<div class="order-target" id="g-order-target"></div>' +
+    '<div class="order-bank" id="g-order-bank">' +
+    shuffledWords.map((w, i) => '<div class="order-word in-bank" data-word="' + escAttr(w) + '" data-idx="' + i + '" onclick="gPlaceWord(this)">' + escHtml(w) + '</div>').join('') +
+    '</div>' +
+    '<div class="quiz-feedback" id="g-quiz-feedback"></div>' +
+    '<div class="quiz-btn-row">' +
+    '<button class="quiz-check" id="g-order-check" onclick="gCheckOrder()" style="display:none">Ellen\u0151riz</button>' +
+    '<button class="quiz-next" id="g-quiz-next" onclick="gNextQuestion()">K\u00f6vetkez\u0151</button>' +
+    '</div>';
+}
+
+function gPlaceWord(el) {
+  if (gQuizAnswered) return;
+  const target = document.getElementById('g-order-target');
+  if (el.classList.contains('in-bank')) {
+    el.classList.add('placed');
+    const clone = document.createElement('div');
+    clone.className = 'order-word placed';
+    clone.dataset.word = el.dataset.word;
+    clone.dataset.srcIdx = el.dataset.idx;
+    clone.textContent = el.textContent;
+    clone.onclick = function () { gUnplaceWord(this); };
+    target.appendChild(clone);
+    window._gOrderPlaced.push(el.dataset.word);
+  }
+  if (window._gOrderPlaced.length === window._gOrderCorrect.length) {
+    document.getElementById('g-order-check').style.display = 'inline-block';
+  }
+}
+
+function gUnplaceWord(el) {
+  if (gQuizAnswered) return;
+  const srcIdx = el.dataset.srcIdx;
+  const bankWord = document.querySelector('#g-order-bank .order-word[data-idx="' + srcIdx + '"]');
+  if (bankWord) bankWord.classList.remove('placed');
+  el.remove();
+  window._gOrderPlaced = [...document.getElementById('g-order-target').querySelectorAll('.order-word')].map(w => w.dataset.word);
+  if (window._gOrderPlaced.length < window._gOrderCorrect.length) {
+    document.getElementById('g-order-check').style.display = 'none';
+  }
+}
+
+function gCheckOrder() {
+  if (gQuizAnswered) return;
+  gQuizAnswered = true;
+  const fb = document.getElementById('g-quiz-feedback');
+  const target = document.getElementById('g-order-target');
+  const correctSentence = window._gOrderCorrect.join(' ');
+  const isCorrect = window._gOrderPlaced.join(' ') === correctSentence;
+  document.querySelectorAll('#g-order-target .order-word, #g-order-bank .order-word').forEach(w => w.style.pointerEvents = 'none');
+  document.getElementById('g-order-check').style.display = 'none';
+  if (isCorrect) {
+    target.classList.add('correct-order');
+    fb.innerHTML = '<span style="color:var(--success)">Helyes!</span> ' + getSpeakerBtn(correctSentence, 'hu-HU');
+    gRecordResult(true);
+  } else {
+    target.classList.add('wrong-order');
+    fb.innerHTML = '<span style="color:var(--danger)">Helyes sorrend: <b>' + escHtml(correctSentence) + '</b></span>' +
+      getSpeakerBtn(correctSentence, 'hu-HU') +
+      '<div class="quiz-hint">' + escHtml(window._gOrderHint) + '</div>';
+    gRecordResult(false);
+  }
+  document.getElementById('g-quiz-next').classList.add('show');
+}
+
+function gNextQuestion() {
+  gQuizIndex++;
+  renderGrammarQuiz();
+}
+
 // ── Load data and boot ──
 const appData = window.APP_DATA || {};
 let ankiDeck = appData.ankiDeck || [];
@@ -787,7 +1114,7 @@ quizPool = appData.quizPool || {};
 
 renderStory();
 renderFacts();
+renderGrammar();
 startQuiz();
-initCards(); // Ensure initCards is called if we are on cards tab or just generally ready
-// Inject into static Facts section (if any remains)
-injectSpeakerIcons(document.getElementById('facts'));
+startGrammarQuiz();
+initCards();

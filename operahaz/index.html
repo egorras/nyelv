@@ -61,6 +61,7 @@
     <nav class="tabs">
         <button class="tab active" data-tab="story">Cselekmény</button>
         <button class="tab" data-tab="facts">Érdekességek</button>
+        <button class="tab" data-tab="grammar">Nyelvtan</button>
         <button class="tab" data-tab="cards">Kártyák</button>
         <button class="tab" data-tab="quiz">Kvíz</button>
     </nav>
@@ -70,7 +71,6 @@
     <!-- ═══════════════════════════════════ -->
     <div class="section active" id="story">
         <div class="container">
-            <h2 class="section-title">A balett cselekménye</h2>
             <div class="view-toggle">
                 <button id="view-sentence" class="active" onclick="setStoryView('sentence')">Mondat</button>
                 <button id="view-paragraph" onclick="setStoryView('paragraph')">Bekezdés</button>
@@ -84,9 +84,19 @@
     <!-- ═══════════════════════════════════ -->
     <div class="section" id="facts">
         <div class="container">
-            <h2 class="section-title">Érdekességek</h2>
-            <p class="section-subtitle">Koppints a kártyára a fordításért!</p>
             <div id="facts-content"></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- TAB: GRAMMAR                      -->
+    <!-- ═══════════════════════════════════ -->
+    <div class="section" id="grammar">
+        <div class="container">
+            <div id="grammar-content"></div>
+            <div class="grammar-quiz-section" id="grammar-quiz-section">
+                <div class="quiz-card" id="grammar-quiz-area"></div>
+            </div>
         </div>
     </div>
 
@@ -95,7 +105,6 @@
     <!-- ═══════════════════════════════════ -->
     <div class="section" id="cards">
         <div class="container">
-            <h2 class="section-title">Szókártyák</h2>
             <div class="cards-stats" id="cards-stats"></div>
             <div class="cards-controls">
                 <button class="cards-ctrl-btn cards-ctrl-reset" onclick="resetCards()">↺ Visszaállítás</button>
@@ -113,8 +122,6 @@
     <!-- ═══════════════════════════════════ -->
     <div class="section" id="quiz">
         <div class="container">
-            <h2 class="section-title">Gyakorlás kvíz</h2>
-            <p class="section-subtitle">12 vegyes feladat: választás, kitöltés, sorrend, párosítás</p>
             <div class="quiz-card" id="quiz-area"></div>
         </div>
     </div>

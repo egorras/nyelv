@@ -508,6 +508,182 @@ window.APP_DATA = {
     ]
   },
 
+  // ── Grammar reference data ─────────────────────────────────────────────────
+  grammarData: [
+    {
+      type: 'eset', typeLabel: 'Esetragok',
+      title: 'Akkuzatívusz (-t / -at / -et / -ot)',
+      icon: '🎯',
+      summary: 'A közvetlen tárgy esete — прямое дополнение',
+      explanation: 'Az akkuzatívusz jelöli a mondat közvetlen tárgyát — azt, amire a cselekvés irányul. Az oroszban a винительный падеж felel meg. A rag magánhangzó-illeszkedéssel kapcsolódik: mély hangrendű szavakhoz -t/-at, magas hangrendűekhez -t/-et. Ha a szó magánhangzóra végződik, csak -t kerül hozzá.',
+      explanationRu: 'Винительный падеж обозначает прямое дополнение — то, на что направлено действие глагола. Окончание подчиняется гармонии гласных: к словам с задними гласными — -t/-at, с передними — -t/-et; к словам, оканчивающимся на гласную, добавляется только -t.',
+      examples: [
+        { hu: 'könyv<b>et</b> olvas', ru: 'читает книгу', note: 'könyv + -et (magas hangrendű)' },
+        { hu: 'igaz<b>at</b> mond', ru: 'говорит правду', note: 'igaz + -at (mély hangrendű)' },
+        { hu: 'level<b>et</b> ír', ru: 'пишет письмо', note: 'levél → levelet (tőváltakozás: é → e)' },
+        { hu: 'Anyegin<b>t</b> látja', ru: 'видит Онегина', note: 'magánhangzóra végződő: csak -t' }
+      ],
+      links: [
+        { label: 'Accusative -t — hungarianreference.com', url: 'http://www.hungarianreference.com/Nouns/-t-accusative.aspx' },
+        { label: 'Hungarian case — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_case' }
+      ]
+    },
+    {
+      type: 'eset', typeLabel: 'Esetragok',
+      title: 'Szublativus (-ra / -re)',
+      icon: '📍',
+      summary: 'Felszínre, eseményre irányul — «на / к»',
+      explanation: 'A szublativus kifejezi, hogy valamit valami felszínére vagy egy eseményre irányítunk. Az oroszban «на + вин. пад.» vagy «к + дат. пад.» felel meg. Mély hangrendű szavakhoz -ra, magas hangrendűekhez -re járul.',
+      explanationRu: 'Сублатив выражает направление на поверхность чего-либо или к событию. В русском соответствует «на + вин. пад.» или «к + дат. пад.». Гармония гласных: к словам с задними гласными — -ra, с передними — -re.',
+      examples: [
+        { hu: 'születésnap<b>ra</b> készül', ru: 'готовится к дню рождения', note: 'születésnap + -ra (mély)' },
+        { hu: 'első pillantás<b>ra</b> szeret', ru: 'влюбляется с первого взгляда', note: 'frazeológiai állandó' },
+        { hu: 'figyelemr<b>e</b> méltat', ru: 'удостаивает вниманием', note: 'figyelem + -re (magas)' }
+      ],
+      links: [
+        { label: 'Sublative -ra/-re — hungarianreference.com', url: 'http://www.hungarianreference.com/Nouns/ra-re-sublative.aspx' },
+        { label: 'Sublative case — Wikipedia', url: 'https://en.wikipedia.org/wiki/Sublative_case' }
+      ]
+    },
+    {
+      type: 'eset', typeLabel: 'Esetragok',
+      title: 'Illatívusz (-ba / -be) és Inesszívusz (-ban / -ben)',
+      icon: '📦',
+      summary: 'Belülre irányul / belül van — «в» куда? / где?',
+      explanation: 'A magyarban két különböző rag fejezi ki a mozgást valami belsejébe (-ba/-be) és a benne-létet (-ban/-ben). Az oroszban mindkettőre «в» elöljáró használatos, de más esettel: mozgásnál вин. пад. (куда?), helynél предл. пад. (где?). Ez az egyik legfontosabb különbség az orosz és a magyar között!',
+      explanationRu: 'В венгерском два разных окончания: иллатив (-ba/-be) — движение внутрь (куда?), инессив (-ban/-ben) — нахождение внутри (где?). В русском оба случая передаются предлогом «в», но с разными падежами: «в зеркало» (вин. пад.) и «в саду» (предл. пад.). Это одно из ключевых отличий венгерского от русского!',
+      examples: [
+        { hu: 'tükör<b>be</b> néz', ru: 'смотрит в зеркало', note: '-be = irány, mozgás (куда?)' },
+        { hu: 'kert<b>ben</b> sétál', ru: 'гуляет в саду', note: '-ben = hely, ahol van (где?)' },
+        { hu: 'álmá<b>ban</b> látja', ru: 'видит во сне', note: 'álom → álmában (tőváltakozás)' },
+        { hu: 'játék<b>ba</b> kezd', ru: 'приступает к игре', note: '-ba = belemerülés, belépés' }
+      ],
+      links: [
+        { label: 'Illative -ba/-be — hungarianreference.com', url: 'http://www.hungarianreference.com/Nouns/ba-be-illative.aspx' },
+        { label: 'Inessive -ban/-ben — hungarianreference.com', url: 'http://www.hungarianreference.com/Nouns/ban-ben-inessive.aspx' }
+      ]
+    },
+    {
+      type: 'eset', typeLabel: 'Esetragok',
+      title: 'Szociativus (-nal / -nel)',
+      icon: '🤝',
+      summary: 'Társaság, együttlét — «с + тв. пад.»',
+      explanation: 'A szociativus azt fejezi ki, hogy valaki valakivel együtt van. Pontosan megfelel az orosz «с + творительный» szerkezetnek. A rag hasonul az előtte álló mássalhangzóhoz: ha a szó n-re végződik, -nal lesz (Anyegin + -nal). Különbözik az instrumentálistól (-val/-vel), amely eszközt jelöl.',
+      explanationRu: 'Социатив выражает совместное нахождение или действие — точный аналог «с + творительный» в русском. Окончание уподобляется конечному согласному слова: если слово оканчивается на -n, добавляется -nal (Anyegin + -nal → Anyeginnal). Не путать с инструменталом (-val/-vel), который обозначает орудие действия.',
+      examples: [
+        { hu: 'Anyegin<b>nal</b> sétál', ru: 'гуляет с Онегиным', note: 'Anyegin (n) + -nal → hasonulás' },
+        { hu: 'kettes<b>ben</b> marad', ru: 'остаётся наедине', note: 'kettes (kettő) + -ben — "в двойке"' }
+      ],
+      links: [
+        { label: 'Instrumental -val/-vel — hungarianreference.com', url: 'http://www.hungarianreference.com/Nouns/val-vel-instrumental.aspx' },
+        { label: 'Hungarian case — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_case' }
+      ]
+    },
+    {
+      type: 'igekötő', typeLabel: 'Igekötők',
+      title: 'Meg- igekötő — a befejezettség jele',
+      icon: '✅',
+      summary: 'Befejezett, eredményes cselekvés — совершенный вид',
+      explanation: 'A meg- igekötő az egyik leggyakoribb magyar igekötő. Elsősorban befejezettséget és eredményességet jelöl — hasonlóan az orosz perfektív igeelőtagokhoz (по-, за-, у-, с- stb.). Normálisan az ige elé kerül, de tagadáskor az ige után áll: megvallja → nem vallja meg.',
+      explanationRu: 'Приставка meg- — одна из самых употребительных в венгерском. Прежде всего обозначает завершённость и результативность действия, аналог совершенного вида в русском (по-, за-, у-, с- и др.). Обычно стоит перед глаголом, но при отрицании уходит после него: megvallja → nem vallja meg.',
+      examples: [
+        { hu: '<b>meg</b>vallja szerelmét', ru: 'признаётся в любви', note: 'vall → megvallja: egyszer s mindenkorra' },
+        { hu: '<b>meg</b>látja Anyegint', ru: 'замечает / увидит Онегина', note: 'lát → meglátja: hirtelen észrevesz' },
+        { hu: '<b>meg</b>bántja', ru: 'обижает / задевает', note: 'bánt → megbántja: eredményes sértés' },
+        { hu: '<b>meg</b>hívták', ru: 'пригласили', note: 'hív → meghívták: befejezett múlt' }
+      ],
+      links: [
+        { label: 'Verbal prefixes meg-, el- — hungarianreference.com', url: 'http://www.hungarianreference.com/Verbs/verbal-prefixes-coverb-coverbs-meg-el-ki-le-be-fel.aspx' },
+        { label: 'Hungarian verbal prefixes — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_verbs' }
+      ]
+    },
+    {
+      type: 'igenév', typeLabel: 'Igenevek',
+      title: 'Határozói igenév (-va / -ve)',
+      icon: '🔄',
+      summary: 'Egyidejű körülményt fejez ki — деепричастие',
+      explanation: 'A -va/-ve képzős határozói igenév az orosz деепричастие megfelelője: megmutatja, hogy a főige cselekvésével egyidejűleg mi történik, milyen körülmények között megy végbe. Nem változik személy vagy szám szerint — minden alanyhoz ugyanolyan marad.',
+      explanationRu: 'Деепричастие с суффиксом -va/-ve — точный аналог русского деепричастия: обозначает сопутствующее действие или обстоятельство. Не изменяется по лицам и числам — форма одинакова для любого подлежащего.',
+      examples: [
+        { hu: 'vágyakoz<b>va</b> remél', ru: 'надеется с тоской', note: 'vágyakozik + -va: közben vágyakozik' },
+        { hu: 'sétál<b>va</b> gondolkozik', ru: 'размышляет на ходу', note: 'sétál + -va: séta közben' },
+        { hu: 'mosolyog<b>va</b> táncol', ru: 'танцует улыбаясь', note: 'mosolyog + -va' }
+      ],
+      links: [
+        { label: 'Adverbial participle -va/-ve — hungarianreference.com', url: 'http://www.hungarianreference.com/Participles/Verbal-participle-verbal-adverb-va.aspx' },
+        { label: 'Hungarian verbal adverb — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hungarian_verbs' }
+      ]
+    }
+  ],
+
+  // ── Grammar quiz pool ──────────────────────────────────────────────────────
+  grammarQuizPool: {
+    choice: [
+      {
+        q: 'Melyik szóalak az akkuzatívusz (tárgyeset)?',
+        opts: ['könyvet', 'könyvben', 'könyvbe', 'könyvnek'],
+        correct: 0,
+        hint: 'Az akkuzatívusz ragja: -t/-at/-et/-ot. «könyvet» = a könyv mint tárgy.'
+      },
+      {
+        q: 'Mit jelent: «kertben sétál»?',
+        opts: ['в сад идёт', 'в саду гуляет', 'из сада выходит', 'к саду подходит'],
+        correct: 1,
+        hint: '-ban/-ben = inesszívusz: hol? (в + предложный падеж)'
+      },
+      {
+        q: 'Melyik mondatban van szublativus (-ra/-re)?',
+        opts: ['kertben ül', 'tükörbe néz', 'születésnapra készül', 'Anyeginnal sétál'],
+        correct: 2,
+        hint: '-ra/-re: felszínre vagy eseményre irányul — «на / к»'
+      },
+      {
+        q: 'A «meg-» igekötő fő szerepe:',
+        opts: ['befejezettséget jelöl', 'tagadást fejez ki', 'jövő időt jelöl', 'kérdést fejez ki'],
+        correct: 0,
+        hint: 'meg- ≈ orosz perfektív igeelőtagok: по-, за-, у-'
+      },
+      {
+        q: 'Melyik szóban van határozói igenév (-va/-ve)?',
+        opts: ['vágyakozva', 'vágyakozik', 'vágyakozás', 'vágyakozó'],
+        correct: 0,
+        hint: '-va/-ve = határozói igenév, az orosz деепричастие megfelelője'
+      }
+    ],
+    fill: [
+      {
+        sentence: 'Tatjana levele___ ír Anyeginnak.',
+        blank: 'levelet',
+        distractors: ['levélbe', 'levélben', 'levélre'],
+        hint: 'Az ír ige közvetlen tárgyát akkuzatívusz (-t/-et) jelöli.'
+      },
+      {
+        sentence: 'A lány első pillantás___ beleszeret az idegenbe.',
+        blank: 'pillantásra',
+        distractors: ['pillantásban', 'pillantásba', 'pillantással'],
+        hint: 'Eseményre irányuló szublativusz: pillantás + -ra'
+      },
+      {
+        sentence: 'Anyegin___ sétál Tatjana a kertben.',
+        blank: 'Anyeginnal',
+        distractors: ['Anyeginba', 'Anyeginban', 'Anyeginra'],
+        hint: 'Kíséretet kifejező szociativus: Anyegin + -nal'
+      }
+    ],
+    order: [
+      {
+        words: ['Tatjana', 'levelet', 'ír', 'Anyeginnak.'],
+        ru: 'Татьяна пишет письмо Онегину.',
+        hint: 'Alany — tárgy (akkuzatívuszban) — ige — részes eset (-nak).'
+      },
+      {
+        words: ['A', 'lány', 'könyvet', 'olvas.'],
+        ru: 'Девушка читает книгу.',
+        hint: 'Alany + akkuzatívuszban álló tárgy + ige.'
+      }
+    ]
+  },
+
   // ── Anki flashcard deck ────────────────────────────────────────────────────
   ankiDeck: [
     { hu: 'szerelem', pos: 'f\u0151n\u00e9v', ru: '\u043b\u044e\u0431\u043e\u0432\u044c', en: 'love', ex: 'Anyegin k\u00f6ny\u00f6r\u00f6g a szerelm\u00e9\u00e9rt.' },
