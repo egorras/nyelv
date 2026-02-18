@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nyelvleckék</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .index-hero {
+      padding: 4rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+    .index-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--accent);
+      margin-bottom: .5rem;
+    }
+    .index-hero p {
+      color: var(--text-dim);
+      font-size: .95rem;
+    }
+    .lessons {
+      max-width: 640px;
+      margin: 2rem auto 4rem;
+      padding: 0 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .lesson-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: background .2s, border-color .2s, transform .15s;
+    }
+    .lesson-card:hover {
+      background: var(--card-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .lesson-img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .lesson-info {
+      flex: 1;
+    }
+    .lesson-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: .2rem;
+    }
+    .lesson-sub {
+      font-size: .82rem;
+      color: var(--text-dim);
+    }
+    .lesson-arrow {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()"></button>
+
+  <div class="index-hero">
+    <h1>Nyelvleckék</h1>
+    <p>Válassz egy leckét</p>
+  </div>
+
+  <div class="lessons">
+    <a class="lesson-card" href="./onegin/index.html">
+      <img class="lesson-img" src="https://tse3.mm.bing.net/th/id/OIP.LKU6U6P45apgKgBXTmG5wAHaD4?cb=defcachec2&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Anyegin">
+      <div class="lesson-info">
+        <div class="lesson-title">Anyegin</div>
+        <div class="lesson-sub">Magyar · Orosz &middot; Neoklasszikus balett</div>
+      </div>
+      <div class="lesson-arrow">›</div>
+    </a>
+  </div>
+
+  <script>
+    // minimal theme toggle — mirrors app.js logic without the full app
+    (function () {
+      const saved = localStorage.getItem('onegin_theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('onegin_theme', next);
+    }
+  </script>
+</body>
+
+</html>
