@@ -94,11 +94,19 @@ function updateSpeechSliders() {
   document.querySelectorAll('.speech-rate-value').forEach(el => el.textContent = speechRate + 'x');
 }
 
+
 // Init sliders when DOM is ready (or immediately if at end of body)
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', updateSpeechSliders);
 } else {
   updateSpeechSliders();
+}
+
+const SPEAKER_SVG = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+
+function getSpeakerBtn(text, lang = 'hu-HU') {
+  // Simple inline button for quiz headers etc
+  return `<button class="speaker-btn" style="margin-left:8px;vertical-align:middle;display:inline-flex;" onclick="event.stopPropagation(); speak('${escAttr(text)}', '${lang}')">${SPEAKER_SVG}</button>`;
 }
 
 function speak(text, lang = 'hu-HU') {
@@ -299,7 +307,9 @@ function recordResult(correct) {
 function renderChoice(area, dots, data, label) {
   area.innerHTML = dots +
     '<div class="quiz-type-badge choice">' + label + '</div>' +
-    '<div class="quiz-question">' + escHtml(data.q) + '</div>' +
+    '<div class="quiz-question">' +
+    escHtml(data.q) +
+    '</div>' +
     '<div class="quiz-options" id="quiz-options"></div>' +
     '<div class="quiz-feedback" id="quiz-feedback"></div>' +
     '<div class="quiz-btn-row"><button class="quiz-next" id="quiz-next" onclick="nextQuestion()">K\u00f6vetkez\u0151</button></div>';
@@ -348,7 +358,10 @@ function renderFill(area, dots, data, label) {
   area.innerHTML = dots +
     '<div class="quiz-type-badge fill">' + label + '</div>' +
     '<div class="fill-container">' +
-    '<div class="fill-sentence">' + escHtml(parts[0]) + '<span class="fill-blank" id="fill-blank">?</span>' + escHtml(parts[1] || '') + '</div>' +
+    '<div class="fill-sentence">' +
+    escHtml(parts[0]) + '<span class="fill-blank" id="fill-blank">?</span>' + escHtml(parts[1] || '') +
+    getSpeakerBtn(data.sentence.replace('___', '...'), 'hu-HU') +
+    '</div>' +
     '<div class="fill-options" id="fill-options">' +
     allOpts.map(o => '<div class="fill-chip" onclick="answerFill(this,\'' + escAttr(o) + '\')">' + escHtml(o) + '</div>').join('') +
     '</div>' +
@@ -394,7 +407,9 @@ function renderOrder(area, dots, data, label) {
 
   area.innerHTML = dots +
     '<div class="quiz-type-badge order">' + label + '</div>' +
-    '<div class="quiz-question" style="font-size:1rem;font-family:Inter,sans-serif;color:var(--text-dim)">' + escHtml(data.ru) + '</div>' +
+    '<div class="quiz-question" style="font-size:1rem;font-family:Inter,sans-serif;color:var(--text-dim)">' +
+    escHtml(data.ru) +
+    '</div>' +
     '<div class="order-target" id="order-target"></div>' +
     '<div class="order-bank" id="order-bank">' +
     shuffledWords.map((w, i) => '<div class="order-word in-bank" data-word="' + escAttr(w) + '" data-idx="' + i + '" onclick="placeWord(this)">' + escHtml(w) + '</div>').join('') +
@@ -444,18 +459,21 @@ function checkOrder() {
   quizAnswered = true;
   const fb = document.getElementById('quiz-feedback');
   const target = document.getElementById('order-target');
-  const isCorrect = window._orderPlaced.join(' ') === window._orderCorrect.join(' ');
+  const correctSentence = window._orderCorrect.join(' ');
+  const isCorrect = window._orderPlaced.join(' ') === correctSentence;
 
   document.querySelectorAll('.order-word').forEach(w => w.style.pointerEvents = 'none');
   document.getElementById('order-check').style.display = 'none';
 
   if (isCorrect) {
     target.classList.add('correct-order');
-    fb.innerHTML = '<span style="color:var(--success)">Helyes!</span>';
+    fb.innerHTML = '<span style="color:var(--success)">Helyes!</span> ' +
+      getSpeakerBtn(correctSentence, 'hu-HU');
     recordResult(true);
   } else {
     target.classList.add('wrong-order');
-    fb.innerHTML = '<span style="color:var(--danger)">Helyes sorrend: <b>' + escHtml(window._orderCorrect.join(' ')) + '</b></span>' +
+    fb.innerHTML = '<span style="color:var(--danger)">Helyes sorrend: <b>' + escHtml(correctSentence) + '</b></span>' +
+      getSpeakerBtn(correctSentence, 'hu-HU') +
       '<div class="quiz-hint">' + escHtml(window._orderHint) + '</div>';
     recordResult(false);
   }
