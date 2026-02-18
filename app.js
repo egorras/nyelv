@@ -230,6 +230,41 @@ function renderStory() {
   injectSpeakerIcons(container);
 }
 
+// ── Render facts from data ──
+function renderFacts() {
+  const container = document.getElementById('facts-content');
+  if (!container) return;
+  const factsData = (window.APP_DATA || {}).factsData || [];
+  if (!factsData.length) return;
+
+  const SPEAKER_ICON = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+
+  let html = '';
+  factsData.forEach((fact, idx) => {
+    const revealed = idx === 0 ? ' revealed' : '';
+    html += `
+      <div class="fact-card${revealed} fade-in" onclick="toggleFact(this)">
+        <div class="fact-top">
+          <div class="fact-icon">${fact.icon}</div>
+          <div class="fact-content">
+            <h3>${escHtml(fact.title)} <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('${escAttr(fact.title)}')">${SPEAKER_ICON}</button></h3>
+            <p>${escHtml(fact.hu)} <button class="speaker-btn"
+                onclick="event.stopPropagation(); speak('${escAttr(fact.hu)}')">${SPEAKER_ICON}</button></p>
+          </div>
+        </div>
+        <div class="fact-trans">
+          <div class="trans-row"><span class="trans-flag">RU</span><span class="trans-text">${escHtml(fact.ru)}</span></div>
+          ${fact.note ? `<div class="vocab-section"><div class="vocab-note">${fact.note}</div></div>` : ''}
+        </div>
+      </div>`;
+  });
+
+  container.innerHTML = html;
+  requestAnimationFrame(observeFadeIns);
+  injectSpeakerIcons(container);
+}
+
 // ══════════════════════════════════════
 // ── Quiz Engine (Duolingo-style) ──
 // ══════════════════════════════════════
@@ -719,7 +754,8 @@ let ankiDeck = appData.ankiDeck || [];
 quizPool = appData.quizPool || {};
 
 renderStory();
+renderFacts();
 startQuiz();
 initCards(); // Ensure initCards is called if we are on cards tab or just generally ready
-// Inject into static Facts section
+// Inject into static Facts section (if any remains)
 injectSpeakerIcons(document.getElementById('facts'));
