@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="hu" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A hattyúk tava — Balett | Magyar Állami Operaház</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <a href="../index.html" class="home-btn" title="Vissza a főoldalra" aria-label="Vissza a főoldalra">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+        </a>
+        <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()"></button>
+        <div class="hero-badge">Klasszikus balett</div>
+        <h1>A hattyúk tava</h1>
+        <div class="hero-sub">Лебединое озеро</div>
+    </div>
+
+    <!-- TABS -->
+    <nav class="tabs">
+        <button class="tab active" data-tab="story">Cselekmény</button>
+        <button class="tab" data-tab="facts">Érdekességek</button>
+        <button class="tab" data-tab="cards">Kártyák</button>
+        <button class="tab" data-tab="quiz">Kvíz</button>
+    </nav>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- TAB: STORY                        -->
+    <!-- ═══════════════════════════════════ -->
+    <div class="section active" id="story">
+        <div class="container">
+            <h2 class="section-title">A balett cselekménye</h2>
+            <div class="view-toggle">
+                <button id="view-sentence" class="active" onclick="setStoryView('sentence')">Mondat</button>
+                <button id="view-paragraph" onclick="setStoryView('paragraph')">Bekezdés</button>
+            </div>
+            <div id="story-content"></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- TAB: FACTS                        -->
+    <!-- ═══════════════════════════════════ -->
+    <div class="section" id="facts">
+        <div class="container">
+            <h2 class="section-title">Háttér és Érdekességek</h2>
+            <p class="section-subtitle">Koppints a kártyára a részletekért!</p>
+
+            <div class="fact-card fade-in" onclick="toggleFact(this)">
+                <div class="fact-top">
+                    <div class="fact-icon">🦢</div>
+                    <div class="fact-content">
+                        <h3>Régi legendák, mesék nyomában</h3>
+                        <p>A hattyú-motívum világszerte sok helyen felbukkan a mitológiában. A görögöknél Zeusz hattyú
+                            képében közeledett Lédához, a hindu mítoszokban pedig a tisztaság és a transzcendencia
+                            szimbóluma.</p>
+                    </div>
+                </div>
+                <div class="fact-trans">
+                    <div class="trans-row"><span class="trans-flag">RU</span><span class="trans-text">Лебединый мотив
+                            встречается во многих мифологических историях по всему миру. У греков Зевс явился к Леде в
+                            образе лебедя, а в индуистских мифах эта птица — символ чистоты и трансцендентности.</span>
+                    </div>
+                    <div class="vocab-section">
+                        <div class="vocab-note">💡 <b>motívum</b> = мотив. Görög eredetű szó (греческого происхождения).
+                        </div>
+                        <div class="vocab-note">💡 <b>szimbólum</b> = символ. <i>szimbólum-a</i> (его символ).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fact-card fade-in" onclick="toggleFact(this)">
+                <div class="fact-top">
+                    <div class="fact-icon">🎼</div>
+                    <div class="fact-content">
+                        <h3>A balettzene születése</h3>
+                        <p>Csajkovszkij 1875-ben kapott felkérést a balett megírására a moszkvai Cári Színháztól. Bár a
+                            kortársak kritikával illették („Túlságosan zajos!”), lírai és drámai zenéje
+                            forradalmasította a
+                            balettzenét.</p>
+                    </div>
+                </div>
+                <div class="fact-trans">
+                    <div class="trans-row"><span class="trans-flag">RU</span><span class="trans-text">Чайковский получил
+                            заказ на написание балета от московского Императорского театра в 1875 году. Хотя
+                            современники
+                            критиковали его («Слишком шумно!»), его лирическая и драматическая музыка произвела
+                            революцию в
+                            балетной музыке.</span></div>
+                    <div class="vocab-section">
+                        <div class="vocab-note">💡 <b>felkérés</b> = заказ/просьба: <i>fel-</i> (вверх) + <i>kér</i>
+                            (просить).</div>
+                        <div class="vocab-note">💡 <b>forradalmasít</b> = революционизирует: <i>forradalom</i>
+                            (революция).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fact-card fade-in" onclick="toggleFact(this)">
+                <div class="fact-top">
+                    <div class="fact-icon">🎭</div>
+                    <div class="fact-content">
+                        <h3>Az ősbemutatók</h3>
+                        <p>Az 1877-es moszkvai ősbemutató nem aratott sikert. A mű igazi diadalútja az 1895-ös
+                            szentpétervári bemutatóval kezdődött, Marius Petipa és Lev Ivanov koreográfiájával.</p>
+                    </div>
+                </div>
+                <div class="fact-trans">
+                    <div class="trans-row"><span class="trans-flag">RU</span><span class="trans-text">Московская
+                            премьера
+                            1877 года не имела успеха. Настоящий триумф произведения начался с петербургской премьеры
+                            1895
+                            года в хореографии Мариуса Петипа и Льва Иванова.</span></div>
+                    <div class="vocab-section">
+                        <div class="vocab-note">💡 <b>ősbemutató</b> = (первая) премьера: <i>ős</i> (древний/пра-) +
+                            <i>bemutató</i> (показ).
+                        </div>
+                        <div class="vocab-note">💡 <b>diadalút</b> = триумфальный путь: <i>diadal</i> (триумф/победа) +
+                            <i>út</i> (путь).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fact-card fade-in" onclick="toggleFact(this)">
+                <div class="fact-top">
+                    <div class="fact-icon">🇳🇱</div>
+                    <div class="fact-content">
+                        <h3>Rudi van Dantzig rendezése</h3>
+                        <p>Rudi van Dantzig 1988-as koreográfiája pszichológiai mélységet ad a történetnek. Itt
+                            Siegfried herceg a főszereplő: egy naiv, álmodozó ifjú, aki nem találja helyét az udvarban.
+                        </p>
+                    </div>
+                </div>
+                <div class="fact-trans">
+                    <div class="trans-row"><span class="trans-flag">RU</span><span class="trans-text">Хореография Руди
+                            ван Данцига 1988 года придает истории психологическую глубину. Здесь главным героем является
+                            принц Зигфрид: наивный, мечтательный юноша, который не находит своего места при
+                            дворе.</span>
+                    </div>
+                    <div class="vocab-section">
+                        <div class="vocab-note">💡 <b>mélység</b> = глубина: <i>mély</i> (глубокий) + <i>-ség</i>
+                            (суффикс сущ.).</div>
+                        <div class="vocab-note">💡 <b>főszereplő</b> = главный герой: <i>fő</i> (главный) +
+                            <i>szereplő</i>
+                            (персонаж/актер).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fact-card fade-in" onclick="toggleFact(this)">
+                <div class="fact-top">
+                    <div class="fact-icon">👯‍♀️</div>
+                    <div class="fact-content">
+                        <h3>Kettős szerep: Odette és Odile</h3>
+                        <p>Nagy kihívás, hogy ugyanaz a balerina táncolja Odette-et (a tiszta Fehér Hattyút) és Odile-t
+                            (a csábító Fekete Hattyút). A két karakter ellentétes mozgásvilágot és kisugárzást követel.
+                        </p>
+                    </div>
+                </div>
+                <div class="fact-trans">
+                    <div class="trans-row"><span class="trans-flag">RU</span><span class="trans-text">Большой вызов:
+                            одна и та же балерина танцует Одетту (чистого Белого Лебедя) и Одиль (соблазнительного
+                            Черного
+                            Лебедя). Эти два персонажа требуют противоположной пластики и харизмы.</span></div>
+                    <div class="vocab-section">
+                        <div class="vocab-note">💡 <b>ugyanaz</b> = тот же самый. <i>ugyan-</i> (усилительная приставка)
+                            +
+                            <i>az</i> (тот/этот).
+                        </div>
+                        <div class="vocab-note">💡 <b>ellentétes</b> = противоположный: <i>ellen</i> (против) +
+                            <i>tét</i>
+                            (ставка/действие) + <i>-es</i>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- TAB: CARDS (Anki-style)           -->
+    <!-- ═══════════════════════════════════ -->
+    <div class="section" id="cards">
+        <div class="container">
+            <h2 class="section-title">Szókártyák</h2>
+            <div class="cards-stats" id="cards-stats"></div>
+            <div class="cards-controls">
+                <button class="cards-ctrl-btn cards-ctrl-reset" onclick="resetCards()">↺ Visszaállítás</button>
+            </div>
+            <div class="card-box" id="card-box"></div>
+            <div class="cards-empty" id="cards-empty" style="display:none">
+                <p>Végeztél az összes kártyával! 🎉</p>
+                <button class="quiz-restart" onclick="initCards()">↺ Újra</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- TAB: QUIZ (Duolingo-style)        -->
+    <!-- ═══════════════════════════════════ -->
+    <div class="section" id="quiz">
+        <div class="container">
+            <h2 class="section-title">Gyakorlás kvíz</h2>
+            <p class="section-subtitle">Ellenőrizd tudásod a történetről!</p>
+            <div class="quiz-card" id="quiz-area"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="https://opera.hu/en/programme/2025-2026/swan-lake/hungarian-state-opera-2026-04-26-1100/"
+            target="_blank">opera.hu</a> &middot; Magyar Állami Operaház &middot; 2026
+    </div>
+
+    <script src="./data.js"></script>
+    <script src="../app.js"></script>
+</body>
+
+</html>

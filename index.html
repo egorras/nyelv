@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="hu" translate="no">
 
 <head>
   <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nyelvleckék</title>
   <link rel="stylesheet" href="style.css">
@@ -11,16 +12,19 @@
       padding: 4rem 1.5rem 2.5rem;
       text-align: center;
     }
+
     .index-hero h1 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2rem, 5vw, 3rem);
       color: var(--accent);
       margin-bottom: .5rem;
     }
+
     .index-hero p {
       color: var(--text-dim);
       font-size: .95rem;
     }
+
     .lessons {
       max-width: 640px;
       margin: 2rem auto 4rem;
@@ -28,6 +32,7 @@
       display: grid;
       gap: 1rem;
     }
+
     .lesson-card {
       display: flex;
       align-items: center;
@@ -40,11 +45,13 @@
       color: var(--text);
       transition: background .2s, border-color .2s, transform .15s;
     }
+
     .lesson-card:hover {
       background: var(--card-hover);
       border-color: var(--accent);
       transform: translateY(-2px);
     }
+
     .lesson-img {
       width: 72px;
       height: 72px;
@@ -52,9 +59,11 @@
       border-radius: 10px;
       flex-shrink: 0;
     }
+
     .lesson-info {
       flex: 1;
     }
+
     .lesson-title {
       font-family: 'Playfair Display', serif;
       font-size: 1.15rem;
@@ -62,14 +71,17 @@
       color: var(--accent);
       margin-bottom: .2rem;
     }
+
     .lesson-sub {
       font-size: .82rem;
       color: var(--text-dim);
     }
+
     .lesson-arrow {
       color: var(--text-dim);
       font-size: 1.1rem;
     }
+
     .theme-toggle {
       position: fixed;
       top: 1rem;
@@ -88,10 +100,34 @@
 
   <div class="lessons">
     <a class="lesson-card" href="./onegin/index.html">
-      <img class="lesson-img" src="https://tse3.mm.bing.net/th/id/OIP.LKU6U6P45apgKgBXTmG5wAHaD4?cb=defcachec2&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Anyegin">
+      <img class="lesson-img"
+        src="https://tse3.mm.bing.net/th/id/OIP.LKU6U6P45apgKgBXTmG5wAHaD4?cb=defcachec2&rs=1&pid=ImgDetMain&o=7&rm=3"
+        alt="Anyegin">
       <div class="lesson-info">
         <div class="lesson-title">Anyegin</div>
         <div class="lesson-sub">Neoklasszikus balett</div>
+      </div>
+      <div class="lesson-arrow">›</div>
+    </a>
+
+    <a class="lesson-card" href="./swan-lake/index.html">
+      <img class="lesson-img"
+        src="https://th.bing.com/th/id/OIP.ipyUr0HcbYm2ndzYbtl3vAHaEK?w=295&h=180&c=7&r=0&o=7&cb=defcachec2&dpr=1.3&pid=1.7&rm=3"
+        alt="A hattyúk tava">
+      <div class="lesson-info">
+        <div class="lesson-title">A hattyúk tava</div>
+        <div class="lesson-sub">Klasszikus balett</div>
+      </div>
+      <div class="lesson-arrow">›</div>
+    </a>
+
+    <a class="lesson-card" href="./global-cards.html" style="border-style: dashed;">
+      <div class="lesson-img"
+        style="background:var(--card-hover); display:flex; align-items:center; justify-content:center; font-size:2rem;">
+        📚</div>
+      <div class="lesson-info">
+        <div class="lesson-title">Szókincs</div>
+        <div class="lesson-sub">Összes tanult szó egyben</div>
       </div>
       <div class="lesson-arrow">›</div>
     </a>
@@ -102,12 +138,30 @@
     (function () {
       const saved = localStorage.getItem('onegin_theme');
       if (saved) document.documentElement.setAttribute('data-theme', saved);
+      updateThemeBtn();
     })();
+
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'light' ? 'dark' : 'light';
+      // If current is 'dark', go to 'light'. If 'light' or null, go to 'dark'.
+      const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('onegin_theme', next);
+      updateThemeBtn();
+    }
+
+    function updateThemeBtn() {
+      const btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+      const current = document.documentElement.getAttribute('data-theme');
+      const isDark = current === 'dark';
+
+      const SUN = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+      const MOON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+
+      // If dark, show SUN (to switch to light). If light (or null), show MOON.
+      btn.innerHTML = isDark ? SUN : MOON;
+      btn.title = isDark ? 'Világos mód' : 'Sötét mód';
     }
   </script>
 </body>

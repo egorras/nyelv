@@ -69,6 +69,24 @@ function observeFadeIns() {
 observeFadeIns();
 
 // ── Render story from data ──
+let currentStoryView = 'sentence';
+
+function setStoryView(mode) {
+  currentStoryView = mode;
+  const btnS = document.getElementById('view-sentence');
+  const btnP = document.getElementById('view-paragraph');
+  if (btnS && btnP) {
+    if (mode === 'sentence') {
+      btnS.classList.add('active');
+      btnP.classList.remove('active');
+    } else {
+      btnS.classList.remove('active');
+      btnP.classList.add('active');
+    }
+  }
+  renderStory();
+}
+
 function renderStory() {
   const container = document.getElementById('story-content');
   if (!container) return;
@@ -76,28 +94,60 @@ function renderStory() {
   if (!storyData.length) return;
 
   let html = '';
-  for (const act of storyData) {
-    for (const scene of act.scenes) {
-      const label = escHtml(act.act) + ' \u00b7 ' + escHtml(scene.scene);
-      html += '<div class="act-header fade-in"><span class="act-header-line"></span>'
-        + '<span class="act-header-label">' + label + '</span>'
-        + '<span class="act-header-line"></span></div>';
 
-      for (const block of scene.blocks) {
-        html += '<div class="bilingual-block fade-in">'
-          + '<div class="sentence-hu" onclick="toggleTranslation(this)">'
-          + '<div class="hu-text">' + escHtml(block.hu) + '</div>'
-          + '</div>'
-          + '<div class="translation-panel">'
-          + '<div class="trans-row"><span class="trans-flag">RU</span>'
-          + '<span class="trans-text">' + escHtml(block.ru) + '</span></div>'
-          + (block.note
-            ? '<div class="vocab-section">'
-            + '<div class="vocab-note">' + block.note + '</div>'
-            + '</div>'
-            : '')
-          + '</div>'
+  if (currentStoryView === 'paragraph') {
+    // ── Paragraph View ──
+    for (const act of storyData) {
+      for (const scene of act.scenes) {
+        const label = escHtml(act.act) + ' \u00b7 ' + escHtml(scene.scene);
+        html += '<div class="act-header fade-in"><span class="act-header-line"></span>'
+          + '<span class="act-header-label">' + label + '</span>'
+          + '<span class="act-header-line"></span></div>';
+
+        let huPara = '';
+        let ruPara = '';
+
+        for (const block of scene.blocks) {
+          huPara += block.hu + ' ';
+          if (block.ru) ruPara += block.ru + ' ';
+        }
+
+        html += '<div class="paragraph-block fade-in">'
+          + '<div class="paragraph-hu">' + escHtml(huPara) + '</div>'
+          + (ruPara.trim() ? '<div class="paragraph-ru">' + escHtml(ruPara) + '</div>' : '')
           + '</div>';
+      }
+    }
+  } else {
+    // ── Sentence View (Default) ──
+    for (const act of storyData) {
+      for (const scene of act.scenes) {
+        const label = escHtml(act.act) + ' \u00b7 ' + escHtml(scene.scene);
+        html += '<div class="act-header fade-in"><span class="act-header-line"></span>'
+          + '<span class="act-header-label">' + label + '</span>'
+          + '<span class="act-header-line"></span></div>';
+
+        for (const block of scene.blocks) {
+          let translationHtml = '';
+          if (block.ru) {
+            translationHtml = '<div class="translation-panel">'
+              + '<div class="trans-row"><span class="trans-flag">RU</span>'
+              + '<span class="trans-text">' + escHtml(block.ru) + '</span></div>'
+              + (block.note
+                ? '<div class="vocab-section">'
+                + '<div class="vocab-note">' + block.note + '</div>'
+                + '</div>'
+                : '')
+              + '</div>';
+          }
+
+          html += '<div class="bilingual-block fade-in">'
+            + '<div class="sentence-hu' + (block.ru ? '" onclick="toggleTranslation(this)"' : ' no-trans"') + '>'
+            + '<div class="hu-text">' + escHtml(block.hu) + '</div>'
+            + '</div>'
+            + translationHtml
+            + '</div>';
+        }
       }
     }
   }
@@ -375,7 +425,7 @@ function escAttr(s) {
 // ── Anki-style Flashcards ──
 // ══════════════════════════════════════
 
-const STORAGE_KEY = 'onegin_anki';
+const STORAGE_KEY = 'polyglot_v1';
 
 function loadAnki() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
@@ -386,12 +436,20 @@ function saveAnki(state) {
   catch (e) { }
 }
 
-function getCardState(id) {
-  return loadAnki()[id] || { box: 0, due: 0 };
+function getCardState(idx) {
+  const card = ankiDeck[idx];
+  if (!card) return { box: 0, due: 0 };
+  // Use Hungarian word as key for shared progress across lessons
+  const key = card.hu;
+  return loadAnki()[key] || { box: 0, due: 0 };
 }
-function setCardState(id, box, due) {
+
+function setCardState(idx, box, due) {
+  const card = ankiDeck[idx];
+  if (!card) return;
+  const key = card.hu;
   const state = loadAnki();
-  state[id] = { box, due };
+  state[key] = { box, due };
   saveAnki(state);
 }
 

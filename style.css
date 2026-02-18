@@ -271,6 +271,15 @@ body {
   user-select: none;
 }
 
+.sentence-hu.no-trans {
+  cursor: default;
+}
+
+.sentence-hu.no-trans:hover {
+  background: var(--card);
+  border-color: var(--border);
+}
+
 .sentence-hu:hover {
   border-color: var(--purple);
   background: var(--card-hover);
@@ -1127,4 +1136,61 @@ body {
 .footer a {
   color: var(--accent);
   text-decoration: none;
+}
+
+/* ── View Toggle ── */
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.view-toggle button {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.view-toggle button.active {
+  background: var(--purple);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.paragraph-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  line-height: 1.8;
+}
+
+.paragraph-hu {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 16px;
+  font-family: 'Playfair Display', serif;
+}
+
+.paragraph-ru {
+  font-size: 1rem;
+  color: var(--text-dim);
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-family: 'Inter', sans-serif;
 }
