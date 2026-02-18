@@ -822,7 +822,10 @@ function renderGrammar() {
 
       const examplesHtml = entry.examples.map(ex =>
         `<div class="grammar-example">
-          <div class="grammar-example-hu">${ex.hu}</div>
+          <div class="grammar-example-hu">
+            ${ex.hu}
+            <button class="speaker-btn" style="margin-left:4px" onclick="event.stopPropagation(); speak('${escAttr(ex.hu.replace(/<[^>]*>/g, ''))}')">${SPEAKER_SVG}</button>
+          </div>
           <div class="grammar-example-ru">${escHtml(ex.ru)}</div>
           ${ex.note ? `<div class="grammar-example-note">${escHtml(ex.note)}</div>` : ''}
         </div>`
@@ -858,6 +861,7 @@ function renderGrammar() {
 
   container.innerHTML = html;
   requestAnimationFrame(observeFadeIns);
+  injectSpeakerIcons(container);
 }
 
 function toggleGrammarCard(card) {
